@@ -1,466 +1,143 @@
-import React from "react";
-import useEmblaCarousel from "embla-carousel-react";
-import "/src/css/embla.css";
-import { MapPin, Star, Filter } from "lucide-react";
+import React from 'react';
+import { Users, Award, Clock, TrendingUp } from 'lucide-react';
 
-const EmblaCarousel = (props) => {
-  const { slides, options } = props;
-  const [emblaRef] = useEmblaCarousel(options);
-
+const AboutUs = () => {
   return (
-    <section className="embla">
-      <div className="bg-gray-900">
-        {/* Featured Properties */}
-        <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl font-bold text-white">Recommendations</h2>
-            <button className="flex items-center text-purple-400 hover:text-purple-300">
-              <Filter className="h-5 w-5 mr-2" />
-              Filter Results
-            </button>
-          </div>
-
-          {/* Embla Carousel */}
-          <div className="embla__viewport" ref={emblaRef}>
-            <div className="embla__container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Card 1 */}
-              <div className="embla__slide rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent z-10" />
-                  <div className="absolute top-4 left-4 z-20 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full">
-                    <span className="text-white text-sm font-medium">
-                      Featured
-                    </span>
-                  </div>
-
-                  <img
-                    src="/src/assets/images/1.jpg"
-                    alt="Cozy Downtown Apartment"
-                    className="w-full h-52 object-cover"
-                  />
-                </div>
-                <div className="bg-gradient-to-b from-gray-800 to-gray-900 p-6">
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    Cozy Downtown Apartment
-                  </h3>
-                  <div className="flex items-center mb-4">
-                    <MapPin className="h-4 w-4 text-gray-400" />
-                    <span className="ml-2 text-gray-300">New York, NY</span>
-                  </div>
-                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                    <div>
-                      <span className="text-sm text-gray-400">
-                        Monthly Rent
-                      </span>
-                      <div className="text-2xl font-bold text-white">
-                        $4,500
-                      </div>
-                    </div>
-                    <div className="flex items-center bg-white/5 backdrop-blur-sm px-3 py-1 rounded-full">
-                      <Star className="h-4 w-4 text-yellow-400" />
-                      <span className="ml-1 text-white">4.9</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 2 */}
-              <div className="embla__slide rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent z-10" />
-                  <div className="absolute top-4 left-4 z-20 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full">
-                    <span className="text-white text-sm font-medium">
-                      Premium
-                    </span>
-                  </div>
-                  <img
-                    src="/src/assets/images/2.jpg"
-                    alt="Luxury Penthouse"
-                    className="w-full h-52 object-cover"
-                  />
-                </div>
-                <div className="bg-gradient-to-b from-gray-800 to-gray-900 p-6">
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    Luxury Penthouse
-                  </h3>
-                  <div className="flex items-center mb-4">
-                    <MapPin className="h-4 w-4 text-gray-400" />
-                    <span className="ml-2 text-gray-300">Los Angeles, CA</span>
-                  </div>
-                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                    <div>
-                      <span className="text-sm text-gray-400">
-                        Monthly Rent
-                      </span>
-                      <div className="text-2xl font-bold text-white">
-                        $10,000
-                      </div>
-                    </div>
-                    <div className="flex items-center bg-white/5 backdrop-blur-sm px-3 py-1 rounded-full">
-                      <Star className="h-4 w-4 text-yellow-400" />
-                      <span className="ml-1 text-white">5.0</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 3 */}
-              <div className="embla__slide rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent z-10" />
-                  <div className="absolute top-4 left-4 z-20 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full">
-                    <span className="text-white text-sm font-medium">New</span>
-                  </div>
-                  <img
-                    src="/src/assets/images/3.jpg"
-                    alt="Modern Studio"
-                    className="w-full h-52 object-cover"
-                  />
-                </div>
-                <div className="bg-gradient-to-b from-gray-800 to-gray-900 p-6">
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    Modern Studio
-                  </h3>
-                  <div className="flex items-center mb-4">
-                    <MapPin className="h-4 w-4 text-gray-400" />
-                    <span className="ml-2 text-gray-300">
-                      San Francisco, CA
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                    <div>
-                      <span className="text-sm text-gray-400">
-                        Monthly Rent
-                      </span>
-                      <div className="text-2xl font-bold text-white">
-                        $2,800
-                      </div>
-                    </div>
-                    <div className="flex items-center bg-white/5 backdrop-blur-sm px-3 py-1 rounded-full">
-                      <Star className="h-4 w-4 text-yellow-400" />
-                      <span className="ml-1 text-white">4.7</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Card 3 */}
-              <div className="embla__slide rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent z-10" />
-                  <div className="absolute top-4 left-4 z-20 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full">
-                    <span className="text-white text-sm font-medium">New</span>
-                  </div>
-                  <img
-                    src="/src/assets/images/8.jpg"
-                    alt="Modern Studio"
-                    className="w-full h-52 object-cover"
-                  />
-                </div>
-                <div className="bg-gradient-to-b from-gray-800 to-gray-900 p-6">
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    Modern Studio
-                  </h3>
-                  <div className="flex items-center mb-4">
-                    <MapPin className="h-4 w-4 text-gray-400" />
-                    <span className="ml-2 text-gray-300">
-                      San Francisco, CA
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                    <div>
-                      <span className="text-sm text-gray-400">
-                        Monthly Rent
-                      </span>
-                      <div className="text-2xl font-bold text-white">
-                        $2,800
-                      </div>
-                    </div>
-                    <div className="flex items-center bg-white/5 backdrop-blur-sm px-3 py-1 rounded-full">
-                      <Star className="h-4 w-4 text-yellow-400" />
-                      <span className="ml-1 text-white">4.7</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Card 3 */}
-              <div className="embla__slide rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent z-10" />
-                  <div className="absolute top-4 left-4 z-20 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full">
-                    <span className="text-white text-sm font-medium">New</span>
-                  </div>
-                  <img
-                    src="/src/assets/images/7.jpg"
-                    alt="Modern Studio"
-                    className="w-full h-52 object-cover"
-                  />
-                </div>
-                <div className="bg-gradient-to-b from-gray-800 to-gray-900 p-6">
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    Modern Studio
-                  </h3>
-                  <div className="flex items-center mb-4">
-                    <MapPin className="h-4 w-4 text-gray-400" />
-                    <span className="ml-2 text-gray-300">
-                      San Francisco, CA
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                    <div>
-                      <span className="text-sm text-gray-400">
-                        Monthly Rent
-                      </span>
-                      <div className="text-2xl font-bold text-white">
-                        $2,800
-                      </div>
-                    </div>
-                    <div className="flex items-center bg-white/5 backdrop-blur-sm px-3 py-1 rounded-full">
-                      <Star className="h-4 w-4 text-yellow-400" />
-                      <span className="ml-1 text-white">4.7</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Card 3 */}
-              <div className="embla__slide rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent z-10" />
-                  <div className="absolute top-4 left-4 z-20 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full">
-                    <span className="text-white text-sm font-medium">New</span>
-                  </div>
-                  <img
-                    src="/src/assets/images/10.jpg"
-                    alt="Modern Studio"
-                    className="w-full h-52 object-cover"
-                  />
-                </div>
-                <div className="bg-gradient-to-b from-gray-800 to-gray-900 p-6">
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    Modern Studio
-                  </h3>
-                  <div className="flex items-center mb-4">
-                    <MapPin className="h-4 w-4 text-gray-400" />
-                    <span className="ml-2 text-gray-300">
-                      San Francisco, CA
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                    <div>
-                      <span className="text-sm text-gray-400">
-                        Monthly Rent
-                      </span>
-                      <div className="text-2xl font-bold text-white">
-                        $2,800
-                      </div>
-                    </div>
-                    <div className="flex items-center bg-white/5 backdrop-blur-sm px-3 py-1 rounded-full">
-                      <Star className="h-4 w-4 text-yellow-400" />
-                      <span className="ml-1 text-white">4.7</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Card 3 */}
-              <div className="embla__slide rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent z-10" />
-                  <div className="absolute top-4 left-4 z-20 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full">
-                    <span className="text-white text-sm font-medium">New</span>
-                  </div>
-                  <img
-                    src="/src/assets/images/11.jpg"
-                    alt="Modern Studio"
-                    className="w-full h-52 object-cover"
-                  />
-                </div>
-                <div className="bg-gradient-to-b from-gray-800 to-gray-900 p-6">
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    Modern Studio
-                  </h3>
-                  <div className="flex items-center mb-4">
-                    <MapPin className="h-4 w-4 text-gray-400" />
-                    <span className="ml-2 text-gray-300">
-                      San Francisco, CA
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                    <div>
-                      <span className="text-sm text-gray-400">
-                        Monthly Rent
-                      </span>
-                      <div className="text-2xl font-bold text-white">
-                        $2,800
-                      </div>
-                    </div>
-                    <div className="flex items-center bg-white/5 backdrop-blur-sm px-3 py-1 rounded-full">
-                      <Star className="h-4 w-4 text-yellow-400" />
-                      <span className="ml-1 text-white">4.7</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Card 3 */}
-              <div className="embla__slide rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent z-10" />
-                  <div className="absolute top-4 left-4 z-20 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full">
-                    <span className="text-white text-sm font-medium">New</span>
-                  </div>
-                  <img
-                    src="/src/assets/images/12.jpg"
-                    alt="Modern Studio"
-                    className="w-full h-52 object-cover"
-                  />
-                </div>
-                <div className="bg-gradient-to-b from-gray-800 to-gray-900 p-6">
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    Modern Studio
-                  </h3>
-                  <div className="flex items-center mb-4">
-                    <MapPin className="h-4 w-4 text-gray-400" />
-                    <span className="ml-2 text-gray-300">
-                      San Francisco, CA
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                    <div>
-                      <span className="text-sm text-gray-400">
-                        Monthly Rent
-                      </span>
-                      <div className="text-2xl font-bold text-white">
-                        $2,800
-                      </div>
-                    </div>
-                    <div className="flex items-center bg-white/5 backdrop-blur-sm px-3 py-1 rounded-full">
-                      <Star className="h-4 w-4 text-yellow-400" />
-                      <span className="ml-1 text-white">4.7</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Card 3 */}
-              <div className="embla__slide rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent z-10" />
-                  <div className="absolute top-4 left-4 z-20 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full">
-                    <span className="text-white text-sm font-medium">New</span>
-                  </div>
-                  <img
-                    src="/src/assets/images/13.jpg"
-                    alt="Modern Studio"
-                    className="w-full h-52 object-cover"
-                  />
-                </div>
-                <div className="bg-gradient-to-b from-gray-800 to-gray-900 p-6">
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    Modern Studio
-                  </h3>
-                  <div className="flex items-center mb-4">
-                    <MapPin className="h-4 w-4 text-gray-400" />
-                    <span className="ml-2 text-gray-300">
-                      San Francisco, CA
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                    <div>
-                      <span className="text-sm text-gray-400">
-                        Monthly Rent
-                      </span>
-                      <div className="text-2xl font-bold text-white">
-                        $2,800
-                      </div>
-                    </div>
-                    <div className="flex items-center bg-white/5 backdrop-blur-sm px-3 py-1 rounded-full">
-                      <Star className="h-4 w-4 text-yellow-400" />
-                      <span className="ml-1 text-white">4.7</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Card 3 */}
-              <div className="embla__slide rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent z-10" />
-                  <div className="absolute top-4 left-4 z-20 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full">
-                    <span className="text-white text-sm font-medium">New</span>
-                  </div>
-                  <img
-                    src="/src/assets/images/14.jpg"
-                    alt="Modern Studio"
-                    className="w-full h-52 object-cover"
-                  />
-                </div>
-                <div className="bg-gradient-to-b from-gray-800 to-gray-900 p-6">
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    Modern Studio
-                  </h3>
-                  <div className="flex items-center mb-4">
-                    <MapPin className="h-4 w-4 text-gray-400" />
-                    <span className="ml-2 text-gray-300">
-                      San Francisco, CA
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                    <div>
-                      <span className="text-sm text-gray-400">
-                        Monthly Rent
-                      </span>
-                      <div className="text-2xl font-bold text-white">
-                        $2,800
-                      </div>
-                    </div>
-                    <div className="flex items-center bg-white/5 backdrop-blur-sm px-3 py-1 rounded-full">
-                      <Star className="h-4 w-4 text-yellow-400" />
-                      <span className="ml-1 text-white">4.7</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Card 3 */}
-              <div className="embla__slide rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent z-10" />
-                  <div className="absolute top-4 left-4 z-20 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full">
-                    <span className="text-white text-sm font-medium">New</span>
-                  </div>
-                  <img
-                    src="/src/assets/images/15.jpg"
-                    alt="Modern Studio"
-                    className="w-full h-52 object-cover"
-                  />
-                </div>
-                <div className="bg-gradient-to-b from-gray-800 to-gray-900 p-6">
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    Modern Studio
-                  </h3>
-                  <div className="flex items-center mb-4">
-                    <MapPin className="h-4 w-4 text-gray-400" />
-                    <span className="ml-2 text-gray-300">
-                      San Francisco, CA
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                    <div>
-                      <span className="text-sm text-gray-400">
-                        Monthly Rent
-                      </span>
-                      <div className="text-2xl font-bold text-white">
-                        $2,800
-                      </div>
-                    </div>
-                    <div className="flex items-center bg-white/5 backdrop-blur-sm px-3 py-1 rounded-full">
-                      <Star className="h-4 w-4 text-yellow-400" />
-                      <span className="ml-1 text-white">4.7</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+    <div className="min-h-screen bg-gray-900">
+      {/* Hero Section */}
+      <div className="relative h-96 overflow-hidden">
+        <img
+          src="/src/assets/images/11.jpg"
+          alt="About Us Hero"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black bg-opacity-60">
+          <div className="container mx-auto h-full flex items-center px-4">
+            <div className="max-w-2xl">
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                Your Trusted Rental Partner in Sri Lanka
+              </h1>
+              <p className="text-xl text-gray-200">
+                Providing exceptional rental services since 2010
+              </p>
             </div>
           </div>
         </div>
       </div>
-    </section>
+
+      {/* Our Story Section */}
+      <div className="py-16 bg-gray-900">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl font-bold text-white mb-6">Our Story</h2>
+              <p className="text-gray-300 mb-4">
+                Founded in 2010, we began with a simple mission: to revolutionize the rental experience in Sri Lanka. What started as a small local operation has grown into one of the country's most trusted rental service providers.
+              </p>
+              <p className="text-gray-300">
+                We take pride in our commitment to quality, transparency, and customer satisfaction. Our team of dedicated professionals works tirelessly to ensure that every rental experience exceeds expectations.
+              </p>
+            </div>
+            <div className="relative h-72 rounded-lg overflow-hidden">
+              <img
+                src="/src/assets/images/14.jpg"
+                alt="Our Story"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Stats Section */}
+      <div className="py-16 bg-gray-800">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="text-4xl font-bold text-blue-400 mb-2">10K+</div>
+              <div className="text-gray-300">Happy Customers</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-blue-400 mb-2">1000+</div>
+              <div className="text-gray-300">Items Available</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-blue-400 mb-2">15+</div>
+              <div className="text-gray-300">Years Experience</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-blue-400 mb-2">24/7</div>
+              <div className="text-gray-300">Support</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Why Choose Us Section */}
+      <div className="py-16 bg-gray-900">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-white text-center mb-12">
+            Why Choose Us
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-gray-800 p-6 rounded-lg">
+              <Award className="w-12 h-12 text-blue-400 mb-4" />
+              <h3 className="text-xl font-bold text-white mb-3">
+                Quality Guarantee
+              </h3>
+              <p className="text-gray-300">
+                All our rental items undergo rigorous quality checks to ensure the best experience for our customers.
+              </p>
+            </div>
+            <div className="bg-gray-800 p-6 rounded-lg">
+              <Clock className="w-12 h-12 text-blue-400 mb-4" />
+              <h3 className="text-xl font-bold text-white mb-3">
+                Timely Service
+              </h3>
+              <p className="text-gray-300">
+                We value your time and ensure prompt delivery and pickup of all rental items.
+              </p>
+            </div>
+            <div className="bg-gray-800 p-6 rounded-lg">
+              <TrendingUp className="w-12 h-12 text-blue-400 mb-4" />
+              <h3 className="text-xl font-bold text-white mb-3">
+                Competitive Rates
+              </h3>
+              <p className="text-gray-300">
+                Get the best value for your money with our transparent and competitive pricing.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Team Section */}
+      <div className="py-16 bg-gray-800 pd">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-white text-center mb-12">
+            Our Team
+          </h2>
+          <div className="grid md:grid-cols-4 gap-8">
+            {[1, 2, 3, 4].map((member) => (
+              <div key={member} className="text-center">
+                <div className="w-48 h-48 mx-auto rounded-full overflow-hidden mb-4">
+                  <img
+                    src="/src/assets/images/man-1.jpg"
+                    alt={`Team Member ${member}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">
+                  Team Member {member}
+                </h3>
+                <p className="text-gray-300">Position</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default EmblaCarousel;
+export default AboutUs;

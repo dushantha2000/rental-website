@@ -8,7 +8,7 @@ const testimonials = [
     feedback: "DreamHome Rentals made my house search so much easier! I found the perfect home in no time.",
     location: "New York, NY",
     rating: 5,
-    image: "/src/assets/images/man-1.jpg"
+    image: "/src/assets/images/man-1.jpg",
   },
   {
     id: 2,
@@ -16,7 +16,7 @@ const testimonials = [
     feedback: "Amazing platform with excellent customer service. Highly recommend DreamHome Rentals!",
     location: "Los Angeles, CA",
     rating: 5,
-    image: "/src/assets/images/man-2.jpg"
+    image: "/src/assets/images/man-2.jpg",
   },
   {
     id: 3,
@@ -24,8 +24,8 @@ const testimonials = [
     feedback: "Loved the variety of options. I was able to find a cozy apartment within my budget!",
     location: "Chicago, IL",
     rating: 4,
-    image: "/src/assets/images/man-3.jpg"
-  }
+    image: "/src/assets/images/man-3.jpg",
+  },
 ];
 
 const TestimonialCard = ({ name, feedback, location, rating, image }) => (
@@ -68,23 +68,20 @@ const Feedback = () => {
   };
 
   return (
-    <div className="bg-gray-50 py-16">
+    <div className="bg-gray-900 py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl font-bold text-gray-100 mb-4">
             What Our Customers Say
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-300 max-w-2xl mx-auto">
             Read trusted reviews from our satisfied customers about their experience with DreamHome Rentals.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {testimonials
-            .slice(
-              currentPage * itemsPerPage,
-              (currentPage + 1) * itemsPerPage
-            )
+            .slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
             .map((testimonial) => (
               <TestimonialCard key={testimonial.id} {...testimonial} />
             ))}

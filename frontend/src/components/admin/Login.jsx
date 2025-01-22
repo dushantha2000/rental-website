@@ -1,14 +1,68 @@
 import React, { useState } from "react";
 import { Lock, Mail } from "lucide-react";
+import { apiUrl } from "../common/Http";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({ email: "", password: "" });
 
-  const handleLogin = (e) => {
+  // Email validation function
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // Password validation function
+  const validatePassword = (password) => {
+    return password.length >= 6;
+  };
+
+  // Login submission handler
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Add login logic here
-    console.log("Login attempted with:", { email, password });
+
+    // Validate inputs
+    const newErrors = { email: "", password: "" };
+    let isValid = true;
+
+    if (!validateEmail(email)) {
+      newErrors.email = "Please enter a valid email address.";
+      isValid = false;
+    }
+
+    if (!validatePassword(password)) {
+      newErrors.password = "Password must be at least 6 characters long.";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+
+    // If inputs are valid, proceed with login
+    if (isValid) {
+      const data = { email, password };
+      try {
+        const response = await fetch(`${apiUrl}/admin/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          toast.success("Login successful!");
+          console.log(result);
+        } else {
+          toast.error(result.message || "Login failed. Please try again.");
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+        toast.error("Something went wrong. Please try again.");
+      }
+    }
   };
 
   return (
@@ -18,7 +72,10 @@ const LoginPage = () => {
         <form onSubmit={handleLogin}>
           {/* Email Input */}
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-300 text-sm font-medium mb-1">
+            <label
+              htmlFor="email"
+              className="block text-gray-300 text-sm font-medium mb-1"
+            >
               Email Address
             </label>
             <div className="flex items-center bg-gray-700 rounded-md">
@@ -33,11 +90,17 @@ const LoginPage = () => {
                 required
               />
             </div>
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
 
           {/* Password Input */}
           <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-300 text-sm font-medium mb-1">
+            <label
+              htmlFor="password"
+              className="block text-gray-300 text-sm font-medium mb-1"
+            >
               Password
             </label>
             <div className="flex items-center bg-gray-700 rounded-md">
@@ -52,6 +115,9 @@ const LoginPage = () => {
                 required
               />
             </div>
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
           </div>
 
           {/* Login Button */}

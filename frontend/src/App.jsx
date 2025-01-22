@@ -10,9 +10,15 @@ import Footer from "./components/common/Footer";
 import Recommendation from "./components/common/Recommendation";
 import Listings from "./components/Listings";
 import AboutPage from "./components/AboutPage";
-import Contact from "./components/Contact";
-import Login from "./components/common/Login";
+import ContactPage from "./components/ContactPage";
 import Register from "./components/common/Register";
+import DetailsPage from "./components/DetailsPage";
+import Login from "./components/admin/Login";
+import { ToastContainer, toast } from "react-toastify";
+
+
+
+
 
 function App() {
   return (
@@ -21,19 +27,25 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
-          <Route path="/header" element={<Header/>} />
-          <Route path="/hero" element={<Hero/>} />
-          <Route path="/property-filter" element={<PropertyFilter/>} />
-          <Route path="/about-us" element={<AboutUs/>} />
-          <Route path="/footer" element={<Footer/>} />
-          <Route path="/recommendation" element={<Recommendation/>} />
-          <Route path="/listings" element={<Listings/>} />
-          <Route path="/about" element={<AboutPage/>} />
-          <Route path="/contact" element={<Contact/>} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/register" element={<Register/>} />
+          <Route path="/header" element={<Header />} />
+          <Route path="/hero" element={<Hero />} />
+          <Route path="/property-filter" element={<PropertyFilter />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/footer" element={<Footer />} />
+          <Route path="/recommendation" element={<Recommendation />} />
+          <Route path="/listings" element={<Listings />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/details" element={<DetailsPage />} />
+
+          {/*Admin Process */}
+         
+          <Route path="/admin/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
+      <ToastContainer />
     </>
   );
 }
