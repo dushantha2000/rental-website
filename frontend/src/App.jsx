@@ -15,6 +15,7 @@ import Register from "./components/common/Register";
 import DetailsPage from "./components/DetailsPage";
 import Login from "./components/admin/Login";
 import { ToastContainer, toast } from "react-toastify";
+import Dashboard from "./components/admin/Dashboard";
 
 
 
@@ -41,7 +42,7 @@ function App() {
           <Route path="/details" element={<DetailsPage />} />
 
           {/*Admin Process */}
-         
+          <Route path="/admin/dashboard" element={<Dashboard/>} />
           <Route path="/admin/login" element={<Login />} />
         </Routes>
       </BrowserRouter>

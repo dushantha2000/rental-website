@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Lock, Mail } from "lucide-react";
 import { apiUrl } from "../common/Http";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -13,6 +14,8 @@ const LoginPage = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+
+  const navigate = useNavigate();
 
   // Password validation function
   const validatePassword = (password) => {
@@ -55,6 +58,20 @@ const LoginPage = () => {
         if (response.ok) {
           toast.success("Login successful!");
           console.log(result);
+
+          if(result.status ==200){
+            const adminInfo ={
+              token :result.token,
+              id:result.id,
+              name :result.name,
+            }
+            localStorage.setItem('adminInfo',JSON.stringify(adminInfo))
+            navigate('/admin/dashboard')
+
+
+          }else {
+            toast.error(result.message);
+          }
         } else {
           toast.error(result.message || "Login failed. Please try again.");
         }
