@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Lock, Mail } from "lucide-react";
 import { apiUrl } from "../common/Http";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { AdminAuthContext } from "../context/AdminAuth";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -15,6 +16,7 @@ const LoginPage = () => {
     return emailRegex.test(email);
   };
 
+  const {login} =useContext(AdminAuthContext)
   const navigate = useNavigate();
 
   // Password validation function
@@ -66,7 +68,10 @@ const LoginPage = () => {
               name :result.name,
             }
             localStorage.setItem('adminInfo',JSON.stringify(adminInfo))
-            navigate('/admin/dashboard')
+            
+            login(adminInfo)
+            navigate('/admin/dashboard');
+
 
 
           }else {

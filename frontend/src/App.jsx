@@ -16,6 +16,7 @@ import DetailsPage from "./components/DetailsPage";
 import Login from "./components/admin/Login";
 import { ToastContainer, toast } from "react-toastify";
 import Dashboard from "./components/admin/Dashboard";
+import { AdminRequireAuth } from "./components/admin/AdminRequireAuth";
 
 
 
@@ -42,7 +43,11 @@ function App() {
           <Route path="/details" element={<DetailsPage />} />
 
           {/*Admin Process */}
-          <Route path="/admin/dashboard" element={<Dashboard/>} />
+          <Route path="/admin/dashboard" element={
+            <AdminRequireAuth>
+              <Dashboard/>
+            </AdminRequireAuth>
+          } />
           <Route path="/admin/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
