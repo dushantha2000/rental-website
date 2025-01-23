@@ -33,9 +33,29 @@ class AuthController extends Controller
                     'status' => 200,
                     'token' => $token,
                     'id' => $user->id,
+                    'role' =>'admin',
                     'name' => $user->name,
                 ], 200);
-            } else {
+            }if($user->role == 'buyer'){
+                $token = $user->createToken('token')->plainTextToken;
+                return response()->json([
+                    'status' => 200,
+                    'token' => $token,
+                    'id' => $user->id,
+                    'role' =>'buyer',
+                    'name' => $user->name,
+                ], 200);
+                
+            }if($user->role == 'seller'){
+                $token = $user->createToken('token')->plainTextToken;
+                return response()->json([
+                    'status' => 200,
+                    'token' => $token,
+                    'id' => $user->id,
+                    'role' =>'seller',
+                    'name' => $user->name,
+                ], 200);
+            }else {
                 return response()->json([
                     'status' => 401,
                     'message' => 'You are not authorized to access admin panel.',

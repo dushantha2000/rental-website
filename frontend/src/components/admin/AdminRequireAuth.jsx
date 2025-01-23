@@ -4,7 +4,6 @@ import { Navigate } from "react-router-dom";
 
 export const AdminRequireAuth = ({ children }) => {
   try {
-    
     const { user } = useContext(AdminAuthContext);
     console.log("error");
     if (!user) {
@@ -13,6 +12,6 @@ export const AdminRequireAuth = ({ children }) => {
     return children;
   } catch (error) {
     console.error("Error in AdminRequireAuth:", error);
-    return null; 
+    return null;
   }
 };
