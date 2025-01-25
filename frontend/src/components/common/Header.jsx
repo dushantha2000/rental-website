@@ -5,21 +5,19 @@ function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState("");
 
-
-
   useEffect(() => {
     // Check if user is logged in
     const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
     if (adminInfo && adminInfo.token) {
       setIsLoggedIn(true);
-      setUserName(adminInfo.name);// Use the stored name
+      setUserName(adminInfo.name);
     }
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("adminInfo");
     setIsLoggedIn(false);
-    window.location.href = "/admin/login"; // Redirect to login page
+    window.location.href = "/admin/login"; 
   };
   const handleAccount=()=>{
     const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
