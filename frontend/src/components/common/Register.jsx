@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { apiUrl } from "../common/Http";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
   const [accountType, setAccountType] = useState("user");
@@ -6,10 +9,12 @@ const RegisterPage = () => {
     username: "",
     email: "",
     password: "",
-    confirmPassword: "",
     phone: "",
     address: "",
   });
+
+  const navigate = useNavigate();
+
 
   const [errors, setErrors] = useState({});
 
@@ -25,8 +30,6 @@ const RegisterPage = () => {
     if (!formData.email.includes("@")) formErrors.email = "Invalid email address.";
     if (formData.password.length < 6)
       formErrors.password = "Password must be at least 6 characters.";
-    if (formData.password !== formData.confirmPassword)
-      formErrors.confirmPassword = "Passwords do not match.";
     if (!formData.phone.match(/^\d{10}$/))
       formErrors.phone = "Phone number must be 10 digits.";
     if (!formData.address.trim()) formErrors.address = "Address is required.";
@@ -35,20 +38,45 @@ const RegisterPage = () => {
     return Object.keys(formErrors).length === 0;
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Form submitted:", { ...formData, accountType });
-      alert("Registration successful!");
-      setFormData({
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        phone: "",
-        address: "",
-      });
-      setErrors({});
+      try {
+        const response = await fetch(`${apiUrl}/register`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ 
+            name: formData.username, 
+            email: formData.email, 
+            role: accountType === "user" ? "buyer" : "seller", // Updated role assignment
+            phone: formData.phone, 
+            address: formData.address, 
+            password: formData.password 
+          }),
+        });
+
+        const result = await response.json();
+        if (result.status === 200) {
+          toast.success("register successful!");
+          setFormData({
+            username: "",
+            email: "",
+            password: "",
+            phone: "",
+            address: "",
+          });
+          setErrors({});
+          navigate('/admin/login');
+        } else {
+          toast.error("register failed. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error during registration:", error);
+        toast.error("An error occurred. Please try again.");
+      
+      }
     }
   };
 
@@ -61,17 +89,17 @@ const RegisterPage = () => {
         <div className="flex justify-center mb-6">
           <button
             className={`px-4 py-2 mx-2 rounded-md ${
-              accountType === "buyer" ? "bg-purple-600 text-white" : "bg-gray-700 text-gray-300"
+              accountType === "user" ? "bg-purple-600 text-white" : "bg-gray-700 text-gray-300"
             }`}
-            onClick={() => setAccountType("buyer")}
+            onClick={() => setAccountType("user")}
           >
-            User Account
+            Buyer Account
           </button>
           <button
             className={`px-4 py-2 mx-2 rounded-md ${
-              accountType === "seller" ? "bg-purple-600 text-white" : "bg-gray-700 text-gray-300"
+              accountType === "rentalOwner" ? "bg-purple-600 text-white" : "bg-gray-700 text-gray-300"
             }`}
-            onClick={() => setAccountType("seller")}
+            onClick={() => setAccountType("rentalOwner")}
           >
             Rental Owner
           </button>
@@ -86,7 +114,7 @@ const RegisterPage = () => {
             <input
               type="text"
               id="name"
-              name="name"
+              name="username"
               placeholder="Enter your username"
               className={`w-full px-4 py-2 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none ${
                 errors.username && "border-red-500 border"
@@ -133,27 +161,6 @@ const RegisterPage = () => {
               onChange={handleInputChange}
             />
             {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
-          </div>
-
-          {/* Confirm Password */}
-          <div className="mb-4">
-            <label htmlFor="confirmPassword" className="block text-gray-300 text-sm font-medium mb-1">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              placeholder="Confirm your password"
-              className={`w-full px-4 py-2 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none ${
-                errors.confirmPassword && "border-red-500 border"
-              }`}
-              value={formData.confirmPassword}
-              onChange={handleInputChange}
-            />
-            {errors.confirmPassword && (
-              <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
-            )}
           </div>
 
           {/* Phone Number */}

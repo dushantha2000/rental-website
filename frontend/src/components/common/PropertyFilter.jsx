@@ -22,7 +22,7 @@ function PropertyFilter() {
         { 
           id: 'room', 
           icon: BedDouble, 
-          label: 'Single Rooms', 
+          label: 'Commercial Property', 
           count: 167,
           description: 'Affordable individual rooms'
         }

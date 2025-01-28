@@ -18,6 +18,8 @@ return new class extends Migration
             $table->enum('role',['buyer','seller','admin'])->default('buyer');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('phone');
+            $table->string('address');
             $table->rememberToken();
             $table->timestamps();
         });
