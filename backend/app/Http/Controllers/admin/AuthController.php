@@ -33,6 +33,27 @@ class AuthController extends Controller
                     'status' => 200,
                     'token' => $token,
                     'id' => $user->id,
+                    'role' => 'admin',
+                    'name' => $user->name,
+                ], 200);
+            }
+            if ($user->role == 'buyer') {
+                $token = $user->createToken('token')->plainTextToken;
+                return response()->json([
+                    'status' => 200,
+                    'token' => $token,
+                    'id' => $user->id,
+                    'role' => 'buyer',
+                    'name' => $user->name,
+                ], 200);
+            }
+            if ($user->role == 'seller') {
+                $token = $user->createToken('token')->plainTextToken;
+                return response()->json([
+                    'status' => 200,
+                    'token' => $token,
+                    'id' => $user->id,
+                    'role' => 'seller',
                     'name' => $user->name,
                 ], 200);
             } else {
@@ -47,5 +68,39 @@ class AuthController extends Controller
                 'message' => 'Either email or password is incorrect.',
             ], 401);
         }
+    }
+
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+            'role' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+
+        $user = new user();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->role= $request->role;
+        $user->save();
+
+        return response()->json([
+            'status' => 200,
+            'massage' => 'register successfully.',
+            'data' => $user
+        ], 200);
     }
 }

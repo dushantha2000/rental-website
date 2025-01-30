@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { ChevronRight, ChevronDown, Building2, Home, Building } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { ChevronRight, ChevronDown, Building2, Home } from 'lucide-react';
+import { apiUrl, countToken } from "../common/Http"; // Importing API utilities
 
 const TreeNode = ({ label, children, icon: Icon }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -44,46 +45,66 @@ const TreeNode = ({ label, children, icon: Icon }) => {
 };
 
 const PropertyTreeMenu = () => {
+  const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
+  const [loader, setLoader] = useState(false);
+
+  // Fetch categories and subcategories
+  const fetchCategories = async () => {
+    setLoader(true);
+    const res = await fetch(`${apiUrl}/categories`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${countToken()}`,
+      },
+    });
+    const result = await res.json();
+    setLoader(false);
+    if (result.status === 200) {
+      setCategories(result.data);
+    } else {
+      console.log("Something went wrong");
+    }
+  };
+
+  const fetchSubCategories = async () => {
+    setLoader(true);
+    const res = await fetch(`${apiUrl}/subCategories`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${countToken()}`,
+      },
+    });
+    const result = await res.json();
+    setLoader(false);
+    if (result.status === 200) {
+      setSubCategories(result.data);
+    } else {
+      console.log("Something went wrong");
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+    fetchSubCategories();
+  }, []);
+
+  // Prepare tree data
   const treeData = [
     {
-      label: "Apartment",
-      icon: Building,
-      children: [
-        { label: "General" },
-        { label: "Flat" },
-        { label: "Annex" },
-        { label: "Suite" },
-        { label: "Duplex" },
-        { label: "Studio" },
-        { label: "Penthouse" }
-      ]
-    },
-    {
-      label: "House",
-      icon: Home,
-      children: [
-        { label: "General" },
-        { label: "Unit House" },
-        { label: "Bungalow" }
-      ]
-    },
-    {
-      label: "Commercial Property",
+      label: "Main categories",
       icon: Building2,
-      children: [
-        { label: "Building (Isolate)" },
-        { label: "Office space (Building)" },
-        { label: "Warehouse" },
-        { label: "Factory" },
-        { label: "Shop Space" },
-        { label: "Showroom/ Premises" },
-        { label: "Mixed use" },
-        { label: "Workshop/ Workplace" },
-        { label: "Service/ filling station" },
-        { label: "Hostel" },
-        { label: "Cinema" }
-      ]
-    }
+      children: categories.map(category => ({ label: category.name })),
+    },
+    {
+      label: "Sub categories",
+      icon: Home,
+      children: subCategories.map(subCategory => ({ label: subCategory.name })),
+    },
   ];
 
   return (
@@ -93,9 +114,13 @@ const PropertyTreeMenu = () => {
         Property Types
       </h2>
       <div className="space-y-2">
-        {treeData.map((node, index) => (
-          <TreeNode key={index} {...node} />
-        ))}
+        {loader ? (
+          <div>Loading...</div>
+        ) : (
+          treeData.map((node, index) => (
+            <TreeNode key={index} {...node} />
+          ))
+        )}
       </div>
     </div>
   );

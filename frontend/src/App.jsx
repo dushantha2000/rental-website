@@ -17,9 +17,8 @@ import Login from "./components/admin/Login";
 import { ToastContainer, toast } from "react-toastify";
 import Dashboard from "./components/admin/Dashboard";
 import { AdminRequireAuth } from "./components/admin/AdminRequireAuth";
-
-
-
+import SellerDashboard from "./components/seller/SellerDashboard";
+import BuyerDashboard from "./components/buyer/BuyerDashboard";
 
 
 function App() {
@@ -43,11 +42,41 @@ function App() {
           <Route path="/details" element={<DetailsPage />} />
 
           {/*Admin Process */}
-          <Route path="/admin/dashboard" element={
-            <AdminRequireAuth>
-              <Dashboard/>
-            </AdminRequireAuth>
-          } />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <AdminRequireAuth>
+                <Dashboard />
+              </AdminRequireAuth>
+            }
+          />
+          {/*Seller Process */}
+          <Route
+            path="/seller/dashboard"
+            element={
+              <AdminRequireAuth>
+                <SellerDashboard />
+              </AdminRequireAuth>
+            }
+            />
+            {/*Seller Process */}
+          <Route
+            path="/seller/dashboard"
+            element={
+              <AdminRequireAuth>
+                <SellerDashboard />
+              </AdminRequireAuth>
+            }
+          />
+          {/*Seller Process */}
+          <Route
+            path="/buyer/dashboard"
+            element={
+              <AdminRequireAuth>
+                <BuyerDashboard />
+              </AdminRequireAuth>
+            }
+            />
           <Route path="/admin/login" element={<Login />} />
         </Routes>
       </BrowserRouter>

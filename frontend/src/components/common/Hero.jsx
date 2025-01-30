@@ -4,6 +4,10 @@ import { Search } from 'lucide-react';
 function Hero() {
   const [searchQuery, setSearchQuery] = useState("");
 
+  const handleSearch = () => {
+    // Logic to handle search without API call can be added here
+  };
+
   return (
     <>
       {/* Hero Section */}
@@ -34,7 +38,7 @@ function Hero() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <button className="bg-purple-600 text-white px-6 py-2 rounded-md hover:bg-purple-700">
+                <button onClick={handleSearch} className="bg-purple-600 text-white px-6 py-2 rounded-md hover:bg-purple-700">
                   Search
                 </button>
               </div>

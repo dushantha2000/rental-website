@@ -65,15 +65,14 @@ const LoginPage = () => {
             const adminInfo ={
               token :result.token,
               id:result.id,
+              role:result.role,
               name :result.name,
             }
             localStorage.setItem('adminInfo',JSON.stringify(adminInfo))
+
             
             login(adminInfo)
-            navigate('/admin/dashboard');
-
-
-
+            navigate('/');      
           }else {
             toast.error(result.message);
           }
@@ -155,7 +154,7 @@ const LoginPage = () => {
         <div className="mt-6 text-center">
           <p className="text-gray-400 text-sm">
             Don't have an account?{" "}
-            <a href="#" className="text-purple-400 hover:underline">
+            <a href="/register" className="text-purple-400 hover:underline">
               Sign Up
             </a>
           </p>
