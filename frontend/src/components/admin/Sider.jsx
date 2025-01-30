@@ -27,7 +27,7 @@ const Sidebar = ({ activeSection, setActiveSection }) => {
         </button>
       ))}
       <button className="w-full text-left py-2 px-3 hover:bg-gray-700 rounded flex items-center">
-        <LogOut className="mr-2" /> Logout
+        <LogOut  className="mr-2" /> Logout
       </button>
     </div>
     </div>

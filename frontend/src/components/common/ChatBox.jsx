@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Send, MessageCircle } from "lucide-react";
+ // Import axios for API calls
+import { apiUrl } from '../common/Http'; // Import the API URL
 
 const ChatBox = ({ rentals }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +23,7 @@ const ChatBox = ({ rentals }) => {
     scrollToBottom();
   }, [messages]);
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (inputMessage.trim() === "") return;
 
     const newUserMessage = {
@@ -31,15 +33,23 @@ const ChatBox = ({ rentals }) => {
     };
     setMessages((prev) => [...prev, newUserMessage]);
 
-    const botResponse = {
-      id: messages.length + 2,
-      text: "Let me check that for you. Can you please provide more details?",
-      sender: "bot",
-    };
+    try {
+      const response = await axios.post(`${apiUrl}/gemini`, { message: inputMessage });
+      const botResponse = {
+        id: messages.length + 2,
+        text: response.data.reply, // Assuming the API returns a 'reply' field
+        sender: "bot",
+      };
 
-    setTimeout(() => {
       setMessages((prev) => [...prev, botResponse]);
-    }, 1000);
+    } catch (error) {
+      const errorMessage = {
+        id: messages.length + 2,
+        text: "Sorry, I couldn't get a response from the server.",
+        sender: "bot",
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    }
 
     setInputMessage("");
   };
@@ -71,9 +81,7 @@ const ChatBox = ({ rentals }) => {
             {messages.map((msg) => (
               <div
                 key={msg.id}
-                className={`flex ${
-                  msg.sender === "user" ? "justify-end" : "justify-start"
-                }`}
+                className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
               >
                 <div
                   className={`max-w-[70%] px-4 py-3 rounded-lg shadow-md ${

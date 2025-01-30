@@ -42,7 +42,7 @@ const SubCategories = () => {
   // Fetch subcategories
   const fetchSubCategories = async () => {
     setLoader(true);
-    const res = await fetch(`${apiUrl}/subCategories`, { // Adjusted endpoint for subcategories
+    const res = await fetch(`${apiUrl}/subCategories`, { 
       method: "GET",
       headers: {
         "Content-Type": "application/json",

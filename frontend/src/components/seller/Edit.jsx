@@ -1,664 +1,362 @@
-// src/components/PropertyListingForm.js
-import { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import { apiUrl, countToken } from "../common/Http";
+import { toast } from "react-toastify"; // Import toast for notifications
 
 const Edit = () => {
-  // Form data state
   const [formData, setFormData] = useState({
-    name: '',
-    location: '',
-    squareFeet: '',
-    monthlyFee: '',
-    bedrooms: '',
-    bathrooms: '',
-    status: 'available',
-    features: '',
-    propertyType: 'apartment',
-    description: '',
-    depositAmount: '',
-    availableDate: '',
-    petPolicy: 'no-pets',
-    utilities: '',
-    parkingSpots: '0',
-    furnished: false,
-    airConditioning: false,
-    laundry: 'none',
-    availableUtilities: {
-      water: false,
-      electricity: false,
-      internet: false,
-      gas: false,
-      trash: false
-    }
+    name: "",
+    location: "",
+    squareFeet: "",
+    monthlyFee: "",
+    status: "available",
+    features: [],
+    images: [],
+    category_id: "",
+    sub_category_id: "",
+    description: "",
+    user_id: "", 
   });
 
-  // Image states
-  const [images, setImages] = useState([null, null, null, null]);
-  const [previews, setPreviews] = useState([null, null, null, null]);
+  const [categories, setCategories] = useState([]); // State for categories
+  const [subCategories, setSubCategories] = useState([]); // State for subcategories
+  const [newFeature, setNewFeature] = useState(""); // State for new feature
+  const [loader, setLoader] = useState(false); // State for loader
 
-  // Form submission handler
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    // Create FormData object for file upload
-    const submitData = new FormData();
-    
-    // Add all form fields to FormData
-    Object.keys(formData).forEach(key => {
-      if (typeof formData[key] === 'object') {
-        submitData.append(key, JSON.stringify(formData[key]));
-      } else {
-        submitData.append(key, formData[key]);
-      }
-    });
-    
-    // Add images to FormData
-    images.forEach((image, index) => {
-      if (image) {
-        submitData.append(`image${index + 1}`, image);
-      }
-    });
-
-    try {
-      // Example API call (replace with your actual API endpoint)
-      const response = await fetch('/api/properties', {
-        method: 'POST',
-        body: submitData
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to submit property');
-      }
-
-      const result = await response.json();
-      console.log('Property added successfully:', result);
-      
-      // Reset form after successful submission
-      setFormData({
-        name: '',
-        location: '',
-        squareFeet: '',
-        monthlyFee: '',
-        bedrooms: '',
-        bathrooms: '',
-        status: 'available',
-        features: '',
-        propertyType: 'apartment',
-        description: '',
-        depositAmount: '',
-        availableDate: '',
-        petPolicy: 'no-pets',
-        utilities: '',
-        parkingSpots: '0',
-        furnished: false,
-        airConditioning: false,
-        laundry: 'none',
-        availableUtilities: {
-          water: false,
-          electricity: false,
-          internet: false,
-          gas: false,
-          trash: false
-        }
-      });
-      setImages([null, null, null, null]);
-      setPreviews([null, null, null, null]);
-      
-    } catch (error) {
-      console.error('Error submitting property:', error);
-      // Handle error (show error message to user)
-    }
-  };
-
-  // Form field change handler
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    
-    if (type === 'checkbox') {
-      if (name.startsWith('utility-')) {
-        const utility = name.replace('utility-', '');
-        setFormData(prev => ({
-          ...prev,
-          availableUtilities: {
-            ...prev.availableUtilities,
-            [utility]: checked
-          }
-        }));
-      } else {
-        setFormData(prev => ({
-          ...prev,
-          [name]: checked
-        }));
-      }
-    } else {
+  useEffect(() => {
+    const adminInfo = JSON.parse(localStorage.getItem('adminInfo'));
+    if (adminInfo) {
       setFormData(prev => ({
         ...prev,
-        [name]: value
+        user_id: adminInfo.id // Set user_id from adminInfo
       }));
     }
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  // Image upload handler
-  const handleImageChange = (e, index) => {
-    const file = e.target.files[0];
-    
-    if (file) {
-      // Validate file type
-      const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
-      if (!validTypes.includes(file.type)) {
-        alert('Please upload only JPG, PNG, or WebP images');
-        return;
-      }
-
-      // Validate file size (max 5MB)
-      const maxSize = 5 * 1024 * 1024; // 5MB in bytes
-      if (file.size > maxSize) {
-        alert('Image size should be less than 5MB');
-        return;
-      }
-
-      // Update images array
-      const newImages = [...images];
-      newImages[index] = file;
-      setImages(newImages);
-
-      // Create and set preview
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const newPreviews = [...previews];
-        newPreviews[index] = reader.result;
-        setPreviews(newPreviews);
-      };
-      reader.readAsDataURL(file);
+  const handleFeatureAdd = () => {
+    if (newFeature.trim()) {
+      setFormData((prev) => ({
+        ...prev,
+        features: [...prev.features, newFeature.trim()],
+      }));
+      setNewFeature("");
     }
   };
 
-  // Image removal handler
-  const removeImage = (index) => {
-    const newImages = [...images];
-    const newPreviews = [...previews];
-    newImages[index] = null;
-    newPreviews[index] = null;
-    setImages(newImages);
-    setPreviews(newPreviews);
+  const handleImageUpload = (e) => {
+    const files = Array.from(e.target.files);
+    setFormData((prev) => ({
+      ...prev,
+      images: [...prev.images, ...files],
+    }));
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+    
+    const res = await fetch(`${apiUrl}/properties`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${countToken()}`,
+      },
+      body: JSON.stringify(formData),
+    });
+    const result = await res.json();
+    if (result.status === 200) {
+      toast.success("Property added successfully"); 
+    } else {
+      toast.error("Error adding property"); // Notify error
+    }
+  };
+
+  // Fetch categories
+  const fetchCategories = async () => {
+    const res = await fetch(`${apiUrl}/categories`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${countToken()}`,
+      },
+    });
+    const result = await res.json();
+    
+    if (result.status === 200) {
+      setCategories(result.data);
+      console.log("data work");
+    } else {
+      console.log("Something went wrong");
+    }
+  };
+
+  // Fetch subcategories
+  const fetchSubCategories = async () => {
+    setLoader(true);
+    const res = await fetch(`${apiUrl}/subCategories`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${countToken()}`,
+      },
+    });
+    const result = await res.json();
+    setLoader(false);
+    if (result.status === 200) {
+      setSubCategories(result.data);
+      console.log(result.data);
+    } else {
+      console.log("Something went wrong");
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+    fetchSubCategories();
+  }, []);
+
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-gray-800 rounded-lg shadow-xl text-gray-100">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-100">Add New Property Listing</h2>
-      </div>
-      
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Image Upload Section */}
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-200 mb-2">
-            Property Images (Up to 4)
-          </label>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {Array.from({ length: 4 }).map((_, index) => (
-              <div key={index} className="relative">
-                <div className="aspect-square w-full bg-gray-700 rounded-lg overflow-hidden">
-                  {previews[index] ? (
-                    <>
-                      <img
-                        src={previews[index]}
-                        alt={`Property ${index + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removeImage(index)}
-                        className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 focus:outline-none"
-                      >
-                        ×
-                      </button>
-                    </>
-                  ) : (
-                    <label className="w-full h-full flex flex-col items-center justify-center cursor-pointer hover:bg-gray-600 transition-colors">
-                      <div className="text-4xl text-gray-400">+</div>
-                      <div className="text-xs text-gray-400">Add Image</div>
+    <div className="min-h-screen p-6">
+      <div className="max-w-4xl mx-auto overflow-hidden rounded-lg shadow-xl">
+        <div className="p-8">
+          <h2 className="mb-8 text-3xl font-bold text-center text-white">
+            Add New Property
+          </h2>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              {/* Name Input */}
+              <div>
+                <label className="block mb-2 text-sm font-medium text-white">
+                  Property Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 text-white placeholder-gray-400 transition-colors bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  required
+                />
+              </div>
+
+              {/* Location Input */}
+              <div>
+                <label className="block mb-2 text-sm font-medium text-white">
+                  Location
+                </label>
+                <input
+                  type="text"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 text-white placeholder-gray-400 transition-colors bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  required
+                />
+              </div>
+
+              {/* Square Feet Input */}
+              <div>
+                <label className="block mb-2 text-sm font-medium text-white">
+                  Square Feet
+                </label>
+                <input
+                  type="number"
+                  step="100"
+                  pattern="[0-9]*"
+                  name="squareFeet"
+                  value={formData.squareFeet}
+                  onChange={handleInputChange}
+                  onInput={(e) =>
+                    (e.target.value = e.target.value.replace("-", ""))
+                  }
+                  className="w-full px-4 py-2 text-white placeholder-gray-400 transition-colors bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  required
+                />
+              </div>
+
+              {/* Monthly Fee Input */}
+              <div>
+                <label className="block mb-2 text-sm font-medium text-white">
+                  Monthly Fee
+                </label>
+                <input
+                  type="number"
+                  step="500"
+                  pattern="[0-9]*"
+                  name="monthlyFee"
+                  value={formData.monthlyFee}
+                  onChange={handleInputChange}
+                  onInput={(e) =>
+                    (e.target.value = e.target.value.replace("-", ""))
+                  }
+                  className="w-full px-4 py-2 text-white placeholder-gray-400 transition-colors bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  required
+                />
+              </div>
+
+              {/* Status Select */}
+              <div>
+                <label className="block mb-2 text-sm font-medium text-white">
+                  Status
+                </label>
+                <select
+                  name="status"
+                  value={formData.status}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 text-white placeholder-gray-400 transition-colors bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                >
+                  <option value="available">Available</option>
+                  <option value="rented">Rented</option>
+                  <option value="pending">Pending</option>
+                  <option value="underMaintenance">Under Maintenance</option>
+                </select>
+              </div>
+
+              {/* Category Select */}
+              <div>
+                <label className="block mb-2 text-sm font-medium text-white">
+                  Category
+                </label>
+                <select
+                  name="category_id"
+                  value={formData.category_id}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 text-white placeholder-gray-400 transition-colors bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                >
+                  <option value="">Select a category</option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Sub Category Select */}
+              <div>
+                <label className="block mb-2 text-sm font-medium text-white">
+                  Sub category
+                </label>
+                <select
+                  name="sub_category_id"
+                  value={formData.sub_category_id}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 text-white placeholder-gray-400 transition-colors bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                >
+                  <option value="">Select a subcategory</option>
+                  {subCategories.map((subCategory) => (
+                    <option key={subCategory.id} value={subCategory.id}>
+                      {subCategory.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Description Textarea */}
+            <div>
+              <label className="block mb-2 text-sm font-medium text-white">
+                Description
+              </label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
+                className="w-full h-32 px-4 py-2 text-white placeholder-gray-400 transition-colors bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Features Section */}
+            <div>
+              <label className="block mb-2 text-sm font-medium text-white">
+                Features
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newFeature}
+                  onChange={(e) => setNewFeature(e.target.value)}
+                  className="flex-1 px-4 py-2 text-white placeholder-gray-400 transition-colors bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  placeholder="Add a feature"
+                />
+                <button
+                  type="button"
+                  onClick={handleFeatureAdd}
+                  className="px-6 py-2 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+                >
+                  Add
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {formData.features.map((feature, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 text-sm text-white bg-blue-600 rounded-full"
+                  >
+                    {feature}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Images Upload */}
+            <div>
+              <label className="block mb-2 text-sm font-medium text-white">
+                Images
+              </label>
+              <div className="flex justify-center px-6 pt-5 pb-6 mt-1 transition-colors border-2 border-gray-600 border-dashed rounded-lg hover:border-gray-500">
+                <div className="space-y-1 text-center">
+                  <div className="flex text-sm text-gray-400">
+                    <label className="relative font-medium text-blue-500 bg-gray-700 rounded-md cursor-pointer hover:text-blue-400 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                      <span className="px-4 py-2">Upload files</span>
                       <input
                         type="file"
-                        accept="image/jpeg,image/png,image/webp"
-                        onChange={(e) => handleImageChange(e, index)}
-                        className="hidden"
+                        multiple
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="sr-only"
                       />
                     </label>
-                  )}
+                    <p className="pl-1 text-gray-400">or drag and drop</p>
+                  </div>
+                  <p className="text-xs text-gray-400">
+                    PNG, JPG, GIF up to 10MB
+                  </p>
                 </div>
               </div>
-            ))}
-          </div>
-          <p className="text-sm text-gray-400 mt-2">
-            Accepted formats: JPG, PNG, WebP. Max size: 5MB per image.
-          </p>
+              <div className="grid grid-cols-2 gap-4 mt-4 md:grid-cols-4">
+                {formData.images.map((image, index) => (
+                  <div
+                    key={index}
+                    className="relative flex items-center justify-center text-gray-400 bg-gray-700 rounded-lg aspect-square"
+                  >
+                    Image {index + 1}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all transform hover:scale-[1.02]"
+            >
+              Add Property
+            </button>
+          </form>
         </div>
-
-        {/* Basic Information */}
-        <div className="space-y-4">
-          <div>
-            <label 
-              htmlFor="name" 
-              className="block text-sm font-medium text-gray-200 mb-1"
-            >
-              Property Name*
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              required
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Enter property name"
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100 placeholder-gray-400"
-            />
-          </div>
-
-          <div>
-            <label 
-              htmlFor="location" 
-              className="block text-sm font-medium text-gray-200 mb-1"
-            >
-              Location*
-            </label>
-            <input
-              type="text"
-              id="location"
-              name="location"
-              required
-              value={formData.location}
-              onChange={handleChange}
-              placeholder="Enter full address"
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100 placeholder-gray-400"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label 
-                htmlFor="squareFeet" 
-                className="block text-sm font-medium text-gray-200 mb-1"
-              >
-                Square Feet*
-              </label>
-              <input
-                type="number"
-                id="squareFeet"
-                name="squareFeet"
-                required
-                min="0"
-                value={formData.squareFeet}
-                onChange={handleChange}
-                placeholder="0"
-                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100 placeholder-gray-400"
-              />
-            </div>
-
-            <div>
-              <label 
-                htmlFor="monthlyFee" 
-                className="block text-sm font-medium text-gray-200 mb-1"
-              >
-                Monthly Rent ($)*
-              </label>
-              <input
-                type="number"
-                id="monthlyFee"
-                name="monthlyFee"
-                required
-                min="0"
-                value={formData.monthlyFee}
-                onChange={handleChange}
-                placeholder="0"
-                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100 placeholder-gray-400"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label 
-                htmlFor="bedrooms" 
-                className="block text-sm font-medium text-gray-200 mb-1"
-              >
-                Bedrooms*
-              </label>
-              <input
-                type="number"
-                id="bedrooms"
-                name="bedrooms"
-                required
-                min="0"
-                value={formData.bedrooms}
-                onChange={handleChange}
-                placeholder="0"
-                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100 placeholder-gray-400"
-              />
-            </div>
-
-            <div>
-              <label 
-                htmlFor="bathrooms" 
-                className="block text-sm font-medium text-gray-200 mb-1"
-              >
-                Bathrooms*
-              </label>
-              <input
-                type="number"
-                id="bathrooms"
-                name="bathrooms"
-                required
-                min="0"
-                step="0.5"
-                value={formData.bathrooms}
-                onChange={handleChange}
-                placeholder="0"
-                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100 placeholder-gray-400"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label 
-              htmlFor="propertyType" 
-              className="block text-sm font-medium text-gray-200 mb-1"
-            >
-              Property Type*
-            </label>
-            <select
-              id="propertyType"
-              name="propertyType"
-              required
-              value={formData.propertyType}
-              onChange={handleChange}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100"
-            >
-              <option value="apartment">Apartment</option>
-              <option value="house">House</option>
-              <option value="condo">Condo</option>
-              <option value="townhouse">Townhouse</option>
-              <option value="studio">Studio</option>
-              <option value="duplex">Duplex</option>
-            </select>
-          </div>
-
-          <div>
-            <label 
-              htmlFor="status" 
-              className="block text-sm font-medium text-gray-200 mb-1"
-            >
-              Status*
-            </label>
-            <select
-              id="status"
-              name="status"
-              required
-              value={formData.status}
-              onChange={handleChange}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100"
-            >
-              <option value="available">Available</option>
-              <option value="rented">Rented</option>
-              <option value="pending">Pending</option>
-              <option value="maintenance">Under Maintenance</option>
-            </select>
-          </div>
-
-          {/* Additional Features */}
-          <div>
-            <label className="block text-sm font-medium text-gray-200 mb-2">
-              Additional Features
-            </label>
-            <div className="space-y-2">
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  id="furnished"
-                  name="furnished"
-                  checked={formData.furnished}
-                  onChange={handleChange}
-                  className="w-4 h-4 bg-gray-700 border-gray-600 rounded"
-                />
-                <label htmlFor="furnished" className="ml-2 text-sm text-gray-200">
-                  Furnished
-                </label>
-              </div>
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  id="airConditioning"
-                  name="airConditioning"
-                  checked={formData.airConditioning}
-                  onChange={handleChange}
-                  className="w-4 h-4 bg-gray-700 border-gray-600 rounded"
-                />
-                <label htmlFor="airConditioning" className="ml-2 text-sm text-gray-200">
-                  Air Conditioning
-                </label>
-              </div>
-            </div>
-          </div>
-
-          {/* Utilities */}
-          <div>
-            <label className="block text-sm font-medium text-gray-200 mb-2">
-              Included Utilities
-            </label>
-            <div className="grid grid-cols-2 gap-2">
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="utility-water"
-                    name="utility-water"
-                    checked={formData.availableUtilities.water}
-                    onChange={handleChange}
-                    className="w-4 h-4 bg-gray-700 border-gray-600 rounded"
-                  />
-                  <label htmlFor="utility-water" className="ml-2 text-sm text-gray-200">
-                    Water
-                  </label>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="utility-electricity"
-                    name="utility-electricity"
-                    checked={formData.availableUtilities.electricity}
-                    onChange={handleChange}
-                    className="w-4 h-4 bg-gray-700 border-gray-600 rounded"
-                  />
-                  <label htmlFor="utility-electricity" className="ml-2 text-sm text-gray-200">
-                    Electricity
-                  </label>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="utility-internet"
-                    name="utility-internet"
-                    checked={formData.availableUtilities.internet}
-                    onChange={handleChange}
-                    className="w-4 h-4 bg-gray-700 border-gray-600 rounded"
-                  />
-                  <label htmlFor="utility-internet" className="ml-2 text-sm text-gray-200">
-                    Internet
-                  </label>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="utility-gas"
-                    name="utility-gas"
-                    checked={formData.availableUtilities.gas}
-                    onChange={handleChange}
-                    className="w-4 h-4 bg-gray-700 border-gray-600 rounded"
-                  />
-                  <label htmlFor="utility-gas" className="ml-2 text-sm text-gray-200">
-                    Gas
-                  </label>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="utility-trash"
-                    name="utility-trash"
-                    checked={formData.availableUtilities.trash}
-                    onChange={handleChange}
-                    className="w-4 h-4 bg-gray-700 border-gray-600 rounded"
-                  />
-                  <label htmlFor="utility-trash" className="ml-2 text-sm text-gray-200">
-                    Trash
-                  </label>
-                </div>
-              </div>
-            </div>
-
-          <div>
-            <label 
-              htmlFor="features" 
-              className="block text-sm font-medium text-gray-200 mb-1"
-            >
-              Additional Features & Amenities
-            </label>
-            <textarea
-              id="features"
-              name="features"
-              value={formData.features}
-              onChange={handleChange}
-              placeholder="List additional features (e.g., Parking, Pool, Gym, Security)"
-              rows={3}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100 placeholder-gray-400"
-            />
-          </div>
-
-          <div>
-            <label 
-              htmlFor="description" 
-              className="block text-sm font-medium text-gray-200 mb-1"
-            >
-              Property Description
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              placeholder="Detailed property description"
-              rows={4}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100 placeholder-gray-400"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label 
-                htmlFor="depositAmount" 
-                className="block text-sm font-medium text-gray-200 mb-1"
-              >
-                Security Deposit ($)
-              </label>
-              <input
-                type="number"
-                id="depositAmount"
-                name="depositAmount"
-                min="0"
-                value={formData.depositAmount}
-                onChange={handleChange}
-                placeholder="0"
-                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100 placeholder-gray-400"
-              />
-            </div>
-
-            <div>
-              <label 
-                htmlFor="availableDate" 
-                className="block text-sm font-medium text-gray-200 mb-1"
-              >
-                Available From
-              </label>
-              <input
-                type="date"
-                id="availableDate"
-                name="availableDate"
-                value={formData.availableDate}
-                onChange={handleChange}
-                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label 
-              htmlFor="petPolicy" 
-              className="block text-sm font-medium text-gray-200 mb-1"
-            >
-              Pet Policy
-            </label>
-            <select
-              id="petPolicy"
-              name="petPolicy"
-              value={formData.petPolicy}
-              onChange={handleChange}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100"
-            >
-              <option value="no-pets">No Pets Allowed</option>
-              <option value="cats-only">Cats Only</option>
-              <option value="small-pets">Small Pets Allowed</option>
-              <option value="all-pets">All Pets Allowed</option>
-            </select>
-          </div>
-
-          <div>
-            <label 
-              htmlFor="parkingSpots" 
-              className="block text-sm font-medium text-gray-200 mb-1"
-            >
-              Parking Spots
-            </label>
-            <input
-              type="number"
-              id="parkingSpots"
-              name="parkingSpots"
-              min="0"
-              value={formData.parkingSpots}
-              onChange={handleChange}
-              placeholder="0"
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100 placeholder-gray-400"
-            />
-          </div>
-
-          <div>
-            <label 
-              htmlFor="laundry" 
-              className="block text-sm font-medium text-gray-200 mb-1"
-            >
-              Laundry
-            </label>
-            <select
-              id="laundry"
-              name="laundry"
-              value={formData.laundry}
-              onChange={handleChange}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100"
-            >
-              <option value="none">No Laundry</option>
-              <option value="in-unit">In Unit</option>
-              <option value="in-building">In Building</option>
-              <option value="nearby">Nearby</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="pt-4">
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors font-medium"
-          >
-            Add Property
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   );
 };

@@ -101,7 +101,7 @@ const Categories = () => {
     const result = await res.json();
     if (result.status === 200) {
       toast.success("Subcategory added successfully");
-      fetchSubCategories(); // Refresh subcategories
+      fetchSubCategories(); 
     } else {
       console.log("Something went wrong");
     }
