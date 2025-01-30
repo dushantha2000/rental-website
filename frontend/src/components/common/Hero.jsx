@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
+import { apiUrl } from '../common/Http'; // Import the API URL
 
-function Hero() {
+function Hero({ setSearchResults }) {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const handleSearch = () => {
-    // Logic to handle search without API call can be added here
+  const handleSearch = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/properties/search?query=${searchQuery}`);
+      const data = await response.json();
+      setSearchResults(data); 
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
   };
 
   return (
     <>
-      {/* Hero Section */}
       <div
         className="relative bg-gradient-to-r from-purple-900 to-blue-900 h-96"
         style={{
@@ -19,7 +25,7 @@ function Hero() {
           backgroundPosition: "center",
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8">
+        <div className="px-4 py-24 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-white sm:text-5xl md:text-6xl">
               Find Your Perfect Rental Home
@@ -28,17 +34,17 @@ function Hero() {
               Thousands of quality rental properties waiting for you
             </p>
 
-            <div className="mt-8 max-w-3xl mx-auto">
-              <div className="flex items-center bg-gray-900 rounded-lg shadow-lg p-2 border border-gray-700">
-                <Search className="h-5 w-5 text-gray-400 ml-2" />
+            <div className="max-w-3xl mx-auto mt-8">
+              <div className="flex items-center p-2 bg-gray-900 border border-gray-700 rounded-lg shadow-lg">
+                <Search className="w-5 h-5 ml-2 text-gray-400" />
                 <input
                   type="text"
                   placeholder="Enter location, property type, or keywords..."
-                  className="w-full px-4 py-2 bg-gray-900 text-white placeholder-gray-400 focus:outline-none"
+                  className="w-full px-4 py-2 text-white placeholder-gray-400 bg-gray-900 focus:outline-none"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <button onClick={handleSearch} className="bg-purple-600 text-white px-6 py-2 rounded-md hover:bg-purple-700">
+                <button onClick={handleSearch} className="px-6 py-2 text-white bg-purple-600 rounded-md hover:bg-purple-700">
                   Search
                 </button>
               </div>

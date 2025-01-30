@@ -1,100 +1,85 @@
-import React, { useState } from 'react';
-import { 
-  MapPin, 
-  Home,
-  Square,
-  DollarSign,
-  ChevronLeft,
-  ChevronRight,
-  Calendar,
-  Clock,
-  Phone
-} from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { MapPin, Home, Square, DollarSign, ChevronLeft, ChevronRight } from 'lucide-react';
+import { apiUrl } from '../common/Http'; 
 
-const PropertyDetails = () => {
+const PropertyDetails = ({ propertyId }) => {
   const [currentImage, setCurrentImage] = useState(0);
-  
-  const property = {
-    name: "Luxurious Beachfront Villa",
-    location: "Palm Beach Drive, Miami",
-    squareFeet: 3200,
-    monthlyFee: 4500,
-    description: "Modern beachfront villa with panoramic ocean views, featuring premium finishes and smart home technology throughout. The property includes a private pool, outdoor entertainment area, and direct beach access.",
-    category: "Residential",
-    sub_category: "Villa",
-    status: "Available",
-    features: [
-      "4 Bedrooms",
-      "3.5 Bathrooms",
-      "Private Pool",
-      "Smart Home System",
-      "2-Car Garage",
-      "Ocean View"
-    ]
-  };
+  const [property, setProperty] = useState(null);
 
-  const images = [
-    "/src/assets/images/11.jpg",
-    "/api/placeholder/1200/800",
-    "/api/placeholder/1200/800",
-    "/api/placeholder/1200/800"
-  ];
+  useEffect(() => {
+    const fetchPropertyDetails = async () => {
+      const response = await fetch(`${apiUrl}/properties/${propertyId}`);
+      const data = await response.json();
+      setProperty(data);
+    };
+    fetchPropertyDetails();
+  }, [propertyId]);
+
+  if (!property) return <div>Loading...</div>; 
 
   const nextImage = () => {
-    setCurrentImage((prev) => (prev + 1) % images.length);
+    if (Array.isArray(property.images)) {
+      setCurrentImage((prev) => (prev + 1) % property.images.length);
+    }
   };
 
   const prevImage = () => {
-    setCurrentImage((prev) => (prev - 1 + images.length) % images.length);
+    if (Array.isArray(property.images)) {
+      setCurrentImage((prev) => (prev - 1 + property.images.length) % property.images.length);
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-900">
       {/* Image Gallery */}
       <div className="relative h-[70vh] bg-gray-800">
-        <img
-          src={images[currentImage]}
-          alt={`Property view ${currentImage + 1}`}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent" />
-        <button
-          onClick={prevImage}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-75"
-        >
-          <ChevronLeft className="w-6 h-6" />
-        </button>
-        <button
-          onClick={nextImage}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-75"
-        >
-          <ChevronRight className="w-6 h-6" />
-        </button>
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-          {images.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentImage(idx)}
-              className={`w-2 h-2 rounded-full ${
-                idx === currentImage ? 'bg-white' : 'bg-white bg-opacity-50'
-              }`}
+        {Array.isArray(property.images) && property.images.length > 0 ? (
+          <>
+            <img
+              src={property.images[currentImage]}
+              alt={`Property view ${currentImage + 1}`}
+              className="object-cover w-full h-full"
             />
-          ))}
-        </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent" />
+            <button
+              onClick={prevImage}
+              className="absolute p-2 text-white transform -translate-y-1/2 bg-black bg-opacity-50 rounded-full left-4 top-1/2 hover:bg-opacity-75"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              onClick={nextImage}
+              className="absolute p-2 text-white transform -translate-y-1/2 bg-black bg-opacity-50 rounded-full right-4 top-1/2 hover:bg-opacity-75"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+            <div className="absolute flex space-x-2 transform -translate-x-1/2 bottom-4 left-1/2">
+              {property.images.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentImage(idx)}
+                  className={`w-2 h-2 rounded-full ${idx === currentImage ? 'bg-white' : 'bg-white bg-opacity-50'}`}
+                />
+              ))}
+            </div>
+          </>
+        ) : (
+          <div className="text-white">No images available</div>
+        )}
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="container px-4 py-8 mx-auto">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Property Details */}
           <div className="lg:col-span-2">
-            <div className="bg-gray-800 rounded-lg p-6 mb-8">
-              <div className="flex justify-between items-start mb-4">
+            <div className="p-6 mb-8 bg-gray-800 rounded-lg">
+              <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h1 className="text-3xl font-bold text-white mb-2">
+                  <h1 className="mb-2 text-3xl font-bold text-white">
                     {property.name}
                   </h1>
-                  <div className="flex items-center text-gray-400 mb-2">
+                  <div className="flex items-center mb-2 text-gray-400">
                     <MapPin className="w-4 h-4 mr-2" />
                     <span>{property.location}</span>
                   </div>
@@ -120,70 +105,74 @@ const PropertyDetails = () => {
                 </div>
               </div>
 
-              <div className="border-t border-gray-700 pt-6">
-                <h2 className="text-xl font-bold text-white mb-4">Property Description</h2>
-                <p className="text-gray-300 mb-4">{property.description}</p>
+              <div className="pt-6 border-t border-gray-700">
+                <h2 className="mb-4 text-xl font-bold text-white">Property Description</h2>
+                <p className="mb-4 text-gray-300">{property.description}</p>
               </div>
             </div>
 
             {/* Property Features */}
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h2 className="text-xl font-bold text-white mb-4">Features</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {property.features.map((feature, index) => (
-                  <div key={index} className="flex items-center space-x-2 text-gray-300">
-                    <div className="w-2 h-2 bg-blue-400 rounded-full" />
-                    <span>{feature}</span>
-                  </div>
-                ))}
+            <div className="p-6 bg-gray-800 rounded-lg">
+              <h2 className="mb-4 text-xl font-bold text-white">Features</h2>
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                {Array.isArray(property.features) ? (
+                  property.features.map((feature, index) => (
+                    <div key={index} className="flex items-center space-x-2 text-gray-300">
+                      <div className="w-2 h-2 bg-blue-400 rounded-full" />
+                      <span>{feature}</span>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-gray-300">No features available</div>
+                )}
               </div>
             </div>
           </div>
 
           {/* Booking Form */}
           <div className="lg:col-span-1">
-            <div className="bg-gray-800 rounded-lg p-6 sticky top-4">
-              <h2 className="text-xl font-bold text-white mb-4">Schedule a Visit</h2>
+            <div className="sticky p-6 bg-gray-800 rounded-lg top-4">
+              <h2 className="mb-4 text-xl font-bold text-white">Schedule a Visit</h2>
               <form className="space-y-4">
                 <div>
-                  <label className="block text-gray-300 mb-2">Your Name</label>
+                  <label className="block mb-2 text-gray-300">Your Name</label>
                   <input
                     type="text"
-                    className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter your full name"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-300 mb-2">Email Address</label>
+                  <label className="block mb-2 text-gray-300">Email Address</label>
                   <input
                     type="email"
-                    className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="your@email.com"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-300 mb-2">Phone Number</label>
+                  <label className="block mb-2 text-gray-300">Phone Number</label>
                   <input
                     type="tel"
-                    className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter your phone number"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-300 mb-2">Preferred Date</label>
+                  <label className="block mb-2 text-gray-300">Preferred Date</label>
                   <input
                     type="date"
-                    className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-300 mb-2">Preferred Time</label>
+                  <label className="block mb-2 text-gray-300">Preferred Time</label>
                   <input
                     type="time"
-                    className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
-                <button className="w-full bg-purple-600 text-white font-medium px-4 py-2 rounded-md hover:bg-purple-700 transition duration-300">
+                <button className="w-full px-4 py-2 font-medium text-white transition duration-300 bg-purple-600 rounded-md hover:bg-purple-700">
                   Schedule Visit
                 </button>
               </form>

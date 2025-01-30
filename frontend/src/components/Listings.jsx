@@ -9,7 +9,7 @@ const Listings = () => {
   return (
     <div className="bg-gray-900">
       <Layout>
-        <div className="container mx-auto py-10">
+        <div className="container py-10 mx-auto">
           <div className="grid grid-cols-12 gap-6">
             <div className="col-span-3">
               <FormFilter /> 

@@ -20,7 +20,6 @@ import { AdminRequireAuth } from "./components/admin/AdminRequireAuth";
 import SellerDashboard from "./components/seller/SellerDashboard";
 import BuyerDashboard from "./components/buyer/BuyerDashboard";
 
-
 function App() {
   return (
     <>
@@ -39,7 +38,7 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/details" element={<DetailsPage />} />
+          <Route path="/details/:id" element={<DetailsPage />} /> {/* Updated route */}
 
           {/*Admin Process */}
           <Route
@@ -58,17 +57,8 @@ function App() {
                 <SellerDashboard />
               </AdminRequireAuth>
             }
-            />
-            {/*Seller Process */}
-          <Route
-            path="/seller/dashboard"
-            element={
-              <AdminRequireAuth>
-                <SellerDashboard />
-              </AdminRequireAuth>
-            }
           />
-          {/*Seller Process */}
+          {/*Buyer Process */}
           <Route
             path="/buyer/dashboard"
             element={
@@ -76,7 +66,7 @@ function App() {
                 <BuyerDashboard />
               </AdminRequireAuth>
             }
-            />
+          />
           <Route path="/admin/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
