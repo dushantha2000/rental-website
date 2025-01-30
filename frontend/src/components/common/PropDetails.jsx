@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Home, Square, DollarSign, ChevronLeft, ChevronRight } from 'lucide-react';
 import { apiUrl } from '../common/Http'; 
+import { toast } from "react-toastify";
 
 const PropertyDetails = ({ propertyId }) => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -172,8 +173,8 @@ const PropertyDetails = ({ propertyId }) => {
                     className="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
-                <button className="w-full px-4 py-2 font-medium text-white transition duration-300 bg-purple-600 rounded-md hover:bg-purple-700">
-                  Schedule Visit
+                <button onClick={toast.success("successfully")}  className="w-full px-4 py-2 font-medium text-white transition duration-300 bg-purple-600 rounded-md hover:bg-purple-700">
+                  Schedule Visit 
                 </button>
               </form>
             </div>

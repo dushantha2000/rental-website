@@ -34,21 +34,7 @@ function Hero({ setSearchResults }) {
               Thousands of quality rental properties waiting for you
             </p>
 
-            <div className="max-w-3xl mx-auto mt-8">
-              <div className="flex items-center p-2 bg-gray-900 border border-gray-700 rounded-lg shadow-lg">
-                <Search className="w-5 h-5 ml-2 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Enter location, property type, or keywords..."
-                  className="w-full px-4 py-2 text-white placeholder-gray-400 bg-gray-900 focus:outline-none"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <button onClick={handleSearch} className="px-6 py-2 text-white bg-purple-600 rounded-md hover:bg-purple-700">
-                  Search
-                </button>
-              </div>
-            </div>
+            
           </div>
         </div>
       </div>

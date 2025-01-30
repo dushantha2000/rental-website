@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { apiUrl, countToken } from "../common/Http";
-import { toast } from "react-toastify"; // Import toast for notifications
+import { toast } from "react-toastify"; 
 
 const Edit = () => {
   const [formData, setFormData] = useState({
@@ -17,10 +17,10 @@ const Edit = () => {
     user_id: "", 
   });
 
-  const [categories, setCategories] = useState([]); // State for categories
-  const [subCategories, setSubCategories] = useState([]); // State for subcategories
-  const [newFeature, setNewFeature] = useState(""); // State for new feature
-  const [loader, setLoader] = useState(false); // State for loader
+  const [categories, setCategories] = useState([]); 
+  const [subCategories, setSubCategories] = useState([]); 
+  const [newFeature, setNewFeature] = useState(""); 
+  const [loader, setLoader] = useState(false); 
 
   useEffect(() => {
     const adminInfo = JSON.parse(localStorage.getItem('adminInfo'));
@@ -126,8 +126,8 @@ const Edit = () => {
   }, []);
 
   return (
-    <div className="min-h-screen p-6">
-      <div className="max-w-4xl mx-auto overflow-hidden rounded-lg shadow-xl">
+    <div className="min-h-screen p-6 bg-gray-900">
+      <div className="max-w-4xl mx-auto overflow-hidden bg-gray-800 rounded-lg shadow-xl">
         <div className="p-8">
           <h2 className="mb-8 text-3xl font-bold text-center text-white">
             Add New Property
@@ -145,7 +145,7 @@ const Edit = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 text-white placeholder-gray-400 transition-colors bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="w-full px-4 py-2 text-white placeholder-gray-400 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   required
                 />
               </div>
@@ -160,7 +160,7 @@ const Edit = () => {
                   name="location"
                   value={formData.location}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 text-white placeholder-gray-400 transition-colors bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="w-full px-4 py-2 text-white placeholder-gray-400 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   required
                 />
               </div>
@@ -180,7 +180,7 @@ const Edit = () => {
                   onInput={(e) =>
                     (e.target.value = e.target.value.replace("-", ""))
                   }
-                  className="w-full px-4 py-2 text-white placeholder-gray-400 transition-colors bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="w-full px-4 py-2 text-white placeholder-gray-400 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   required
                 />
               </div>
@@ -200,7 +200,7 @@ const Edit = () => {
                   onInput={(e) =>
                     (e.target.value = e.target.value.replace("-", ""))
                   }
-                  className="w-full px-4 py-2 text-white placeholder-gray-400 transition-colors bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="w-full px-4 py-2 text-white placeholder-gray-400 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   required
                 />
               </div>
@@ -214,7 +214,7 @@ const Edit = () => {
                   name="status"
                   value={formData.status}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 text-white placeholder-gray-400 transition-colors bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 >
                   <option value="available">Available</option>
                   <option value="rented">Rented</option>
@@ -232,7 +232,7 @@ const Edit = () => {
                   name="category_id"
                   value={formData.category_id}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 text-white placeholder-gray-400 transition-colors bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 >
                   <option value="">Select a category</option>
                   {categories.map((category) => (
@@ -252,7 +252,7 @@ const Edit = () => {
                   name="sub_category_id"
                   value={formData.sub_category_id}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 text-white placeholder-gray-400 transition-colors bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 >
                   <option value="">Select a subcategory</option>
                   {subCategories.map((subCategory) => (
@@ -273,7 +273,7 @@ const Edit = () => {
                 name="description"
                 value={formData.description}
                 onChange={handleInputChange}
-                className="w-full h-32 px-4 py-2 text-white placeholder-gray-400 transition-colors bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                className="w-full h-32 px-4 py-2 text-white placeholder-gray-400 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               />
             </div>
 
@@ -287,13 +287,13 @@ const Edit = () => {
                   type="text"
                   value={newFeature}
                   onChange={(e) => setNewFeature(e.target.value)}
-                  className="flex-1 px-4 py-2 text-white placeholder-gray-400 transition-colors bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="flex-1 px-4 py-2 text-white placeholder-gray-400 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   placeholder="Add a feature"
                 />
                 <button
                   type="button"
                   onClick={handleFeatureAdd}
-                  className="px-6 py-2 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+                  className="px-6 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
                 >
                   Add
                 </button>
@@ -315,7 +315,7 @@ const Edit = () => {
               <label className="block mb-2 text-sm font-medium text-white">
                 Images
               </label>
-              <div className="flex justify-center px-6 pt-5 pb-6 mt-1 transition-colors border-2 border-gray-600 border-dashed rounded-lg hover:border-gray-500">
+              <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-600 border-dashed rounded-lg hover:border-gray-500">
                 <div className="space-y-1 text-center">
                   <div className="flex text-sm text-gray-400">
                     <label className="relative font-medium text-blue-500 bg-gray-700 rounded-md cursor-pointer hover:text-blue-400 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">

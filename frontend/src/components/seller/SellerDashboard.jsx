@@ -5,6 +5,7 @@ import Notifications from './Notifications';
 import ChangePassword from './ChangePassword';
 import Layout from '../common/Layout';
 import Edit from './Edit';
+import Property from './Property';
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -28,8 +29,8 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <div className="bg-gray-900 text-white p-4 md:p-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="p-4 text-white bg-gray-900 md:p-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
           <div className="md:col-span-1">
             <Slider activeSection={activeSection} setActiveSection={setActiveSection} />
           </div>

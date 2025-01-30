@@ -6,19 +6,31 @@ use App\Http\Controllers\admin\subCategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\common\PropertyController;
-
+use App\Http\Controllers\common\TempImageController;
+use App\Http\Controllers\TourBookingController;
 
 Route::post('/admin/login', [AuthController::class, 'authenticate']);
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::get('properties', [PropertyController::class, 'index']);
-  Route::get('properties/{id}', [PropertyController::class, 'show']);
-  Route::put('properties/{id}', [PropertyController::class, 'update']);
-  Route::delete('properties/{id}', [PropertyController::class, 'destroy']);
-  Route::post('properties', [PropertyController::class, 'store']);
+  Route::get('/properties', [PropertyController::class, 'index']);
+  Route::get('/properties/{id}', [PropertyController::class, 'show']);
+  Route::put('/properties/{id}', [PropertyController::class, 'update']);
+  Route::delete('/properties/{id}', [PropertyController::class, 'destroy']);
+  Route::post('/properties', [PropertyController::class, 'store']);
 
+  //Search
   Route::POST('/properties/search', [PropertyController::class, 'search']);
 
+  
+  Route::POST('/temp-image', [PropertyController::class, 'store']);
+
+
+
+  Route::get('/booking', [ TourBookingController::class, 'index']);
+  Route::get('/booking/{id}', [ TourBookingController::class, 'show']);
+  Route::put('/booking/{id}', [ TourBookingController::class, 'update']);
+  Route::delete('/booking/{id}', [ TourBookingController::class, 'destroy']);
+  Route::post('/booking', [ TourBookingController::class, 'store']);
 
 //Route::get('/user', function (Request $request) {
 //  return $request->user();
@@ -37,6 +49,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
   Route::delete('subCategories/{id}', [subCategoryController::class, 'destroy']);
   Route::post('subCategories', [subCategoryController::class, 'store']);
 
-
+ 
   
 });
