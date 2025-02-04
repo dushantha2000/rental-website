@@ -27,7 +27,7 @@ const Edit = () => {
     if (adminInfo) {
       setFormData(prev => ({
         ...prev,
-        user_id: adminInfo.id // Set user_id from adminInfo
+        user_id: adminInfo.id 
       }));
     }
   }, []);
@@ -127,7 +127,7 @@ const Edit = () => {
 
   return (
     <div className="min-h-screen p-6 bg-gray-900">
-      <div className="max-w-4xl mx-auto overflow-hidden bg-gray-800 rounded-lg shadow-xl">
+      <div className="max-w-4xl  overflow-hidden ">
         <div className="p-8">
           <h2 className="mb-8 text-3xl font-bold text-center text-white">
             Add New Property

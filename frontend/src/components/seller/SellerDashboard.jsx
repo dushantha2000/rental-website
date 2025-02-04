@@ -14,7 +14,7 @@ const Dashboard = () => {
     switch (activeSection) {
       case 'dashboard':
         return <CustomDashboard />;
-      case 'new':
+      case 'property':
         return <Property/>;
       case 'edit':
         return <Edit />;
