@@ -5,50 +5,31 @@ const Notifications = () => {
   // Sample notification data
   const notifications = [
     {
-      message: "New user signed up for your rental service.",
-      date: "2025-01-23",
+      message: " booked a visit to the 10 Acres Tea Plantation Land for Rent in Nuwara Eliya. - Perera  0788824998",
+      date: "2025-03-03",
     },
-    {
-      message: "House owner added a new property listing.",
-      date: "2025-01-22",
-    },
-    {
-      message: "A tenant made a booking for your property.",
-      date: "2025-01-21",
-    },
-    {
-      message: "System maintenance scheduled for this weekend.",
-      date: "2025-01-20",
-    },
-    {
-      message: "Reminder: Your property listing will expire soon.",
-      date: "2025-01-19",
-    },
-    {
-      message: "A new message from a potential tenant.",
-      date: "2025-01-18",
-    },
+   
   ];
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6">
-      <h2 className="text-2xl font-bold text-white mb-6 flex items-center space-x-3">
-        <FaBell className="text-yellow-400 text-3xl" />
+    <div className="p-6 bg-gray-800 rounded-lg">
+      <h2 className="flex items-center mb-6 space-x-3 text-2xl font-bold text-white">
+        <FaBell className="text-3xl text-yellow-400" />
         <span>Recent Notifications</span>
       </h2>
       <div className="overflow-x-auto rounded-lg shadow-lg">
         <table className="w-full table-auto">
           <thead>
-            <tr className="bg-gray-700 text-gray-300">
-              <th className="py-3 px-4 text-left">Message</th>
-              <th className="py-3 px-4 text-left">Date</th>
+            <tr className="text-gray-300 bg-gray-700">
+              <th className="px-4 py-3 text-left">Message</th>
+              <th className="px-4 py-3 text-left">Date</th>
             </tr>
           </thead>
           <tbody>
             {/* If there are no notifications, show a message */}
             {notifications.length === 0 ? (
               <tr>
-                <td colSpan="2" className="py-4 px-4 text-center text-gray-500">
+                <td colSpan="2" className="px-4 py-4 text-center text-gray-500">
                   No new notifications.
                 </td>
               </tr>
@@ -56,10 +37,10 @@ const Notifications = () => {
               notifications.map((notification, index) => (
                 <tr
                   key={index}
-                  className="border-b border-gray-700 hover:bg-gray-700 transition-all duration-200"
+                  className="transition-all duration-200 border-b border-gray-700 hover:bg-gray-700"
                 >
-                  <td className="py-3 px-4 text-white">{notification.message}</td>
-                  <td className="py-3 px-4 text-white">{notification.date}</td>
+                  <td className="px-4 py-3 text-white">{notification.message}</td>
+                  <td className="px-4 py-3 text-white">{notification.date}</td>
                 </tr>
               ))
             )}

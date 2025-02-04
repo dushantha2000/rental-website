@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ChevronRight, ChevronDown, Building2, Home } from 'lucide-react';
-import { apiUrl, countToken } from "../common/Http"; // Importing API utilities
+import { apiUrl, countToken } from "../common/Http";
 
 const TreeNode = ({ label, children, icon: Icon }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -48,6 +48,7 @@ const PropertyTreeMenu = () => {
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [loader, setLoader] = useState(false);
+  
 
   // Fetch categories and subcategories
   const fetchCategories = async () => {
@@ -108,8 +109,8 @@ const PropertyTreeMenu = () => {
   ];
 
   return (
-    <div className="w-72 bg-gray-900 rounded-xl shadow-xl p-6 border border-gray-800">
-      <h2 className="text-xl font-semibold mb-6 text-white flex items-center">
+    <div className="p-6 bg-gray-900 border border-gray-800 shadow-xl w-72 rounded-xl">
+      <h2 className="flex items-center mb-6 text-xl font-semibold text-white">
         <Building2 className="w-5 h-5 mr-2 text-blue-400" />
         Property Types
       </h2>

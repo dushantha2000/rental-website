@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Property;
 
+
 class PropertyController extends Controller
 {
     public function store(Request $request)
@@ -53,6 +54,7 @@ class PropertyController extends Controller
     public function index()
     {
         $properties = Property::all();
+
         return response()->json($properties);
     }
 
@@ -112,7 +114,7 @@ class PropertyController extends Controller
             'category_id' => 'nullable|exists:categories,id',
             'sub_category_id' => 'nullable|exists:sub_categories,id',
         ]);
-       
+
 
         $query = Property::query();
 

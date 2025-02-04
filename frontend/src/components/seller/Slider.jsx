@@ -12,8 +12,8 @@ const Slider = ({ activeSection, setActiveSection }) => {
 
   return (
     <div className="p-8">
-       <h2 className="text-xl font-semibold mb-4">Dashboard</h2>
-    <div className="bg-gray-800 rounded-lg p-12 space-y-4 ">
+       <h2 className="mb-4 text-xl font-semibold">Dashboard</h2>
+    <div className="p-12 space-y-4 bg-gray-800 rounded-lg ">
       {menuItems.map((item) => (
         <button
           key={item.id}
@@ -26,7 +26,7 @@ const Slider = ({ activeSection, setActiveSection }) => {
           <span className="ml-2">{item.label}</span>
         </button>
       ))}
-      <button className="w-full text-left py-2 px-3 hover:bg-gray-700 rounded flex items-center">
+      <button className="flex items-center w-full px-3 py-2 text-left rounded hover:bg-gray-700">
         <LogOut className="mr-2"   /> Logout
       </button>
     </div>
