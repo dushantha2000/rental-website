@@ -22,8 +22,8 @@ return new class extends Migration
             $table->foreignId('sub_category_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('status')->nullable();
-            $table->string('features')->nullable();
-            $table->string('images')->nullable();
+            $table->text('features')->nullable();
+            $table->text('images')->nullable();
             $table->timestamps();
         });
     }

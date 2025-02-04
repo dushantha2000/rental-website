@@ -3,7 +3,7 @@ import PropertyFilter from "./common/PropertyFilter";
 import AboutUs from "./common/AboutUs";
 import Recommendation from "./common/Recommendation";
 import Layout from "./common/Layout";
-import FormFilter from "./common/FormFilter"; // Import the AdvancedSearch component
+import FormFilter from "./common/FormFilter";
 
 const Listings = () => {
   return (
@@ -20,7 +20,7 @@ const Listings = () => {
               <Recommendation />
 
               {/* Property Type Filter */}
-              <PropertyFilter />
+              <PropertyFilter/>
             </div>
           </div>
         </div>

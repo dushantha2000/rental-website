@@ -5,7 +5,7 @@ const Notifications = () => {
   // Sample notification data
   const notifications = [
     {
-      message: " booked a visit to the Ocean View Apartment. - Perera  0788824998",
+      message: " booked a visit to the 10 Acres Tea Plantation Land for Rent in Nuwara Eliya. - Perera  0788824998",
       date: "2025-03-03",
     },
    

@@ -54,7 +54,7 @@ function PropertyFilter() {
                 </div>
                 <div className="flex items-center justify-between mt-4">
                   <span className="text-2xl font-bold text-purple-400">
-                    ${property.monthlyFee}/mo
+                    Rs.{property.monthlyFee}/mo
                   </span>
                   <div className="flex items-center">
                     <Star className="w-5 h-5 text-yellow-500" />
