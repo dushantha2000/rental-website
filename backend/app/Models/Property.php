@@ -3,6 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Property extends Model
 {
@@ -12,6 +13,7 @@ class Property extends Model
         'name', 'location', 'squareFeet', 'monthlyFee', 'description',
         'category_id', 'sub_category_id', 'user_id', 'status', 'features', 'images'
     ];
+    
 
     // Relationship with Category
     public function category()
@@ -30,6 +32,13 @@ class Property extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function booking() {
+        return $this->hasMany(Booking::class);
+    }
+    
+   
+    
+
 }
 
 

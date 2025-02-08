@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-
-import {
-  MapPin,
-  Home,
-  Square,
-  DollarSign,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { MapPin, Home, Square, DollarSign, ChevronLeft, ChevronRight } from "lucide-react";
 import { apiUrl } from "../common/Http";
 import { toast } from "react-toastify";
 
@@ -31,6 +22,12 @@ const PropertyDetails = ({ propertyId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Basic validation
+    if (!formData.name || !formData.email || !formData.phone || !formData.date || !formData.time) {
+      toast.error("Please fill out all fields.");
+      return;
+    }
+
     try {
       const response = await fetch(`${apiUrl}/bookings`, {
         method: "POST",
@@ -39,8 +36,8 @@ const PropertyDetails = ({ propertyId }) => {
       });
 
       if (response.ok) {
-        toast.success("Booking successfully created!");
         setFormData({ name: "", email: "", phone: "", date: "", time: "" });
+        toast.success("Booking successfully created!");
       } else {
         toast.error("Booking failed. Please try again.");
       }
@@ -51,9 +48,26 @@ const PropertyDetails = ({ propertyId }) => {
 
   useEffect(() => {
     const fetchPropertyDetails = async () => {
-      const response = await fetch(`${apiUrl}/properties/${propertyId}`);
-      const data = await response.json();
-      setProperty(data);
+      try {
+        const response = await fetch(`${apiUrl}/properties/${propertyId}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch property details");
+        }
+        const data = await response.json();
+
+        // Parse images and features if they are JSON strings
+        if (typeof data.images === "string") {
+          data.images = JSON.parse(data.images);
+        }
+        if (typeof data.features === "string") {
+          data.features = JSON.parse(data.features);
+        }
+
+        setProperty(data);
+      } catch (error) {
+        toast.error("Failed to load property details.");
+        console.error(error);
+      }
     };
     fetchPropertyDetails();
   }, [propertyId]);
@@ -68,9 +82,7 @@ const PropertyDetails = ({ propertyId }) => {
 
   const prevImage = () => {
     if (Array.isArray(property.images)) {
-      setCurrentImage(
-        (prev) => (prev - 1 + property.images.length) % property.images.length
-      );
+      setCurrentImage((prev) => (prev - 1 + property.images.length) % property.images.length);
     }
   };
 
@@ -78,7 +90,7 @@ const PropertyDetails = ({ propertyId }) => {
     <div className="min-h-screen bg-gray-900">
       {/* Image Gallery */}
       <div className="relative h-[70vh] bg-gray-800">
-        {Array.isArray(property.images) && property.images.length > 0 ? (
+        {Array.isArray(property?.images) && property.images.length > 0 ? (
           <>
             <img
               src={property.images[currentImage]}
@@ -133,7 +145,7 @@ const PropertyDetails = ({ propertyId }) => {
                   <div className="flex items-center text-gray-400">
                     <Home className="w-4 h-4 mr-2" />
                     <span>
-                      {property.category} - {property.sub_category}
+                      {property.category?.name} - {property.sub_category?.name}
                     </span>
                   </div>
                 </div>
@@ -168,7 +180,7 @@ const PropertyDetails = ({ propertyId }) => {
             <div className="p-6 bg-gray-800 rounded-lg">
               <h2 className="mb-4 text-xl font-bold text-white">Features</h2>
               <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-                {Array.isArray(property.features) ? (
+                {Array.isArray(property?.features) ? (
                   property.features.map((feature, index) => (
                     <div
                       key={index}
@@ -199,7 +211,7 @@ const PropertyDetails = ({ propertyId }) => {
                     type="text"
                     name="name"
                     value={formData.name}
-                    onChange={handleChange} // Add onChange to handle updates
+                    onChange={handleChange}
                     className="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter your full name"
                   />
@@ -214,7 +226,7 @@ const PropertyDetails = ({ propertyId }) => {
                     type="email"
                     name="email"
                     value={formData.email}
-                    onChange={handleChange} // Add onChange to handle updates
+                    onChange={handleChange}
                     className="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="your@email.com"
                   />
@@ -229,7 +241,7 @@ const PropertyDetails = ({ propertyId }) => {
                     type="tel"
                     name="phone"
                     value={formData.phone}
-                    onChange={handleChange} // Add onChange to handle updates
+                    onChange={handleChange}
                     className="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter your phone number"
                   />
@@ -244,7 +256,7 @@ const PropertyDetails = ({ propertyId }) => {
                     type="date"
                     name="date"
                     value={formData.date}
-                    onChange={handleChange} // Add onChange to handle updates
+                    onChange={handleChange}
                     className="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
@@ -258,7 +270,7 @@ const PropertyDetails = ({ propertyId }) => {
                     type="time"
                     name="time"
                     value={formData.time}
-                    onChange={handleChange} // Add onChange to handle updates
+                    onChange={handleChange}
                     className="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>

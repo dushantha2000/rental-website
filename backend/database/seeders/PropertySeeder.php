@@ -22,8 +22,8 @@ class PropertySeeder extends Seeder
             'status' => 'available',
             'features' => json_encode(['Pool', 'Gym', 'Parking']),
             'images' => json_encode(['image1.jpg', 'image2.jpg']),
-            'category_id' => 1, // Assuming category ID 1 exists
-            'sub_category_id' => 1, // Assuming sub-category ID 1 exists
+            'category_id' => 1, 
+            'sub_category_id' => 1,
             'description' => 'A beautiful luxury apartment in the heart of the city.',
             'user_id' => 1, // Assuming user ID 1 exists
         ]);
