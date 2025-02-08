@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { apiUrl, countToken } from "../common/Http";
-import { toast } from "react-toastify"; 
+import { toast } from "react-toastify";
 
 const Edit = () => {
   const [formData, setFormData] = useState({
@@ -14,20 +14,20 @@ const Edit = () => {
     category_id: "",
     sub_category_id: "",
     description: "",
-    user_id: "", 
+    user_id: "",
   });
 
-  const [categories, setCategories] = useState([]); 
-  const [subCategories, setSubCategories] = useState([]); 
-  const [newFeature, setNewFeature] = useState(""); 
-  const [loader, setLoader] = useState(false); 
+  const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
+  const [newFeature, setNewFeature] = useState("");
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
-    const adminInfo = JSON.parse(localStorage.getItem('adminInfo'));
+    const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
     if (adminInfo) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        user_id: adminInfo.id 
+        user_id: adminInfo.id,
       }));
     }
   }, []);
@@ -58,24 +58,72 @@ const Edit = () => {
     }));
   };
 
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      location: "",
+      squareFeet: "",
+      monthlyFee: "",
+      status: "available",
+      features: [],
+      images: [],
+      category_id: "",
+      sub_category_id: "",
+      description: "",
+      user_id: formData.user_id,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    
-    const res = await fetch(`${apiUrl}/properties`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${countToken()}`,
-      },
-      body: JSON.stringify(formData),
+    setLoader(true);
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("name", formData.name);
+    formDataToSend.append("location", formData.location);
+    formDataToSend.append("squareFeet", formData.squareFeet);
+    formDataToSend.append("monthlyFee", formData.monthlyFee);
+    formDataToSend.append("status", formData.status);
+    formDataToSend.append("category_id", formData.category_id);
+    formDataToSend.append("sub_category_id", formData.sub_category_id);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("user_id", formData.user_id);
+
+    // Append features as JSON
+    formData.features.forEach((feature, index) => {
+      formDataToSend.append(`features[${index}]`, feature);
     });
-    const result = await res.json();
-    if (result.status === 200) {
-      toast.success("Property added successfully"); 
-    } else {
-      toast.error("Error adding property"); // Notify error
+
+    // Append images
+    formData.images.forEach((image, index) => {
+      formDataToSend.append(`images[${index}]`, image);
+    });
+
+    try {
+      const res = await fetch(`${apiUrl}/properties`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${countToken()}`,
+        },
+        body: formDataToSend,
+      });
+
+      const result = await res.json();
+      if (result.status === 200) {
+        toast.success("Property added successfully");
+        resetForm();
+      } else {
+        toast.error(result.message || "Error adding property");
+        if (result.errors) {
+          Object.values(result.errors).forEach((error) => {
+            toast.error(error[0]);
+          });
+        }
+      }
+    } catch (error) {
+      toast.error("An error occurred while submitting the form");
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -90,10 +138,9 @@ const Edit = () => {
       },
     });
     const result = await res.json();
-    
+
     if (result.status === 200) {
       setCategories(result.data);
-      console.log("data work");
     } else {
       console.log("Something went wrong");
     }
@@ -114,7 +161,6 @@ const Edit = () => {
     setLoader(false);
     if (result.status === 200) {
       setSubCategories(result.data);
-      console.log(result.data);
     } else {
       console.log("Something went wrong");
     }
@@ -127,13 +173,15 @@ const Edit = () => {
 
   return (
     <div className="min-h-screen p-6 bg-gray-900">
-      <div className="max-w-4xl  overflow-hidden ">
+      <div className="max-w-4xl overflow-hidden">
         <div className="p-8">
           <h2 className="mb-8 text-3xl font-bold text-center text-white">
             Add New Property
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Form fields */}
+            {/* ... (keep all your existing form fields) ... */}
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {/* Name Input */}
               <div>
@@ -346,13 +394,39 @@ const Edit = () => {
                 ))}
               </div>
             </div>
-
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all transform hover:scale-[1.02]"
+              disabled={loader}
+              className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all transform hover:scale-[1.02] disabled:opacity-75 disabled:cursor-not-allowed"
             >
-              Add Property
+              {loader ? (
+                <div className="flex items-center justify-center">
+                  <svg
+                    className="w-5 h-5 mr-3 -ml-1 text-white animate-spin"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Adding...
+                </div>
+              ) : (
+                "Add Property"
+              )}
             </button>
           </form>
         </div>

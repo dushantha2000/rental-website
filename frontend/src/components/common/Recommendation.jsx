@@ -46,7 +46,7 @@ const EmblaCarousel = (props) => {
                         <span className="text-sm font-medium text-black">Rated</span>
                       </div>
                       <img
-                        src="/src/assets/images/13.jpg"
+                        src={property.images[0]}
                         alt={property.title}
                         className="object-cover w-full h-52 "
                       />

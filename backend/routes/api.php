@@ -24,10 +24,9 @@ Route::POST('/properties/search', [PropertyController::class, 'search']);
 Route::POST('/temp-image', [PropertyController::class, 'store']);
 
 // Booking routes with authentication middleware
-
     Route::post('/bookings', [BookingController::class, 'store']);
     Route::get('/bookings', [BookingController::class, 'index']);
-    Route::get('/bookings/{id}', [BookingController::class, 'show']);
+    Route::get('/notifications/{id}', [BookingController::class, 'show']);
     Route::put('/bookings/{id}', [BookingController::class, 'update']);
     Route::delete('/bookings/{id}', [BookingController::class, 'destroy']);
 

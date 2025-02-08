@@ -13,6 +13,8 @@ class Booking extends Model
         'date',
         'name',
         'time',
+        'email',
+        'phone',
         'status',
         'user_id',
         'property_id',
@@ -21,7 +23,7 @@ class Booking extends Model
     /**
      * Relationship: A booking belongs to a user.
      */
-   
+
 
     /**
      * Relationship: A booking belongs to a property.

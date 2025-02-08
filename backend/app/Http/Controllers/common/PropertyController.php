@@ -6,54 +6,83 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Property;
+use Illuminate\Support\Facades\Log;
+
 
 
 class PropertyController extends Controller
 {
     public function store(Request $request)
     {
+        // Validate the request
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'squareFeet' => 'required|numeric|min:0',
             'monthlyFee' => 'required|numeric|min:0',
             'status' => 'required|string|in:available,rented,pending,underMaintenance',
-            'features' => 'array',
-            'images' => 'array',
+            'features' => 'nullable|array',
+            'features.*' => 'string',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpg,jpeg,png', // Ensure each image is valid
             'category_id' => 'required|exists:categories,id',
             'sub_category_id' => 'required|exists:sub_categories,id',
             'description' => 'nullable|string',
             'user_id' => 'required|exists:users,id',
         ]);
+
+        // If validation fails, return error response
         if ($validator->fails()) {
+            Log::error('Validation failed:', ['errors' => $validator->errors()]);
             return response()->json([
-                'status' => 400,
+                'status' => 409,
                 'errors' => $validator->errors()
-            ], 400);
+            ], 409);
         }
-        $Property = new Property();
-        $Property->name = $request->name;
-        $Property->location = $request->location;
-        $Property->squareFeet = $request->squareFeet;
-        $Property->monthlyFee = $request->monthlyFee;
-        $Property->status = $request->status;
-        $Property->features = json_encode($request->features);
-        $Property->images = json_encode($request->images);
-        $Property->category_id = $request->category_id;
-        $Property->sub_category_id = $request->sub_category_id;
-        $Property->description = $request->description;
-        $Property->user_id = $request->user_id;
-        $Property->save();
+
+        // Save images
+        $imagePaths = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $extension = $image->getClientOriginalExtension();
+                $fileName = time() . '_' . uniqid() . '.' . $extension; // Ensure unique file names
+                $path = 'storage/properties/';
+                $image->move($path, $fileName);
+                $imagePaths[] = $path . $fileName;
+            }
+        }
+
+        // Save property data
+        $property = new Property();
+        $property->name = $request->name;
+        $property->location = $request->location;
+        $property->squareFeet = $request->squareFeet;
+        $property->monthlyFee = $request->monthlyFee;
+        $property->status = $request->status;
+        $property->features = json_encode($request->features ?? []);
+        $property->images = json_encode($imagePaths ?? []);
+        $property->category_id = $request->category_id;
+        $property->sub_category_id = $request->sub_category_id;
+        $property->description = $request->description;
+        $property->user_id = $request->user_id;
+        $property->save();
+
+        Log::info('Property saved:', ['id' => $property->id, 'images' => $property->images]);
 
         return response()->json([
             'status' => 200,
-            'errors' => $validator->errors()
+            'message' => 'Property added successfully!',
+            'property' => $property
         ], 200);
     }
 
+
     public function index()
     {
-        $properties = Property::all();
+        $properties = Property::all()->map(function ($property) {
+            $property->images = collect(json_decode($property->images, true))->map(fn($img) => asset('' . $img));
+            return $property;
+        });
 
         return response()->json($properties);
     }
@@ -61,8 +90,11 @@ class PropertyController extends Controller
     public function show($id)
     {
         $property = Property::findOrFail($id);
+        $property->images = collect(json_decode($property->images, true))->map(fn($img) => asset('' . $img));
+
         return response()->json($property);
     }
+
 
     public function update(Request $request, $id)
     {
