@@ -24,7 +24,7 @@ class PropertyController extends Controller
             'features' => 'nullable|array',
             'features.*' => 'string',
             'images' => 'nullable|array',
-            'images.*' => 'image|mimes:jpg,jpeg,png', // Ensure each image is valid
+            'images.*' => 'image|mimes:jpg,jpeg,png', 
             'category_id' => 'required|exists:categories,id',
             'sub_category_id' => 'required|exists:sub_categories,id',
             'description' => 'nullable|string',
@@ -45,7 +45,7 @@ class PropertyController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $extension = $image->getClientOriginalExtension();
-                $fileName = time() . '_' . uniqid() . '.' . $extension; // Ensure unique file names
+                $fileName = time() . '_' . uniqid() . '.' . $extension; 
                 $path = 'storage/properties/';
                 $image->move($path, $fileName);
                 $imagePaths[] = $path . $fileName;

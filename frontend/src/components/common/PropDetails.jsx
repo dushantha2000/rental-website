@@ -278,7 +278,7 @@ const PropertyDetails = ({ propertyId }) => {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full px-4 py-2 font-medium text-white transition duration-300 bg-purple-600 rounded-md hover:bg-purple-700"
+                  className="w-full bg-gradient-to-br from-purple-600  text-white font-semibold px-6 py-3 rounded-lg hover:from-purple-700 transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
                 >
                   Schedule Visit
                 </button>

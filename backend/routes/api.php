@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\common\PropertyController;
 use App\Http\Controllers\common\TempImageController;
 use App\Http\Controllers\BookingController;
+use Illuminate\Routing\Route as RoutingRoute;
 
 Route::post('/admin/login', [AuthController::class, 'authenticate']);
 Route::post('/register', [AuthController::class, 'register']);
+Route::get('/users',[AuthController::class,'index']);
 
 Route::get('/properties', [PropertyController::class, 'index']);
 Route::get('/properties/{id}', [PropertyController::class, 'show']);
@@ -45,6 +47,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('subCategories', [subCategoryController::class, 'store']);
   Route::post('categories', [CategoryController::class, 'store']);
 
+  
   Route::get('subCategories', [subCategoryController::class, 'index']);
   Route::get('subCategories/{id}', [subCategoryController::class, 'show']);
   Route::put('subCategories/{id}', [subCategoryController::class, 'update']);

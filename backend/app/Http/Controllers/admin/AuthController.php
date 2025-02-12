@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    public function index()
+    {
+        $user = User::orderBy('created_at','DESC')->get();
+        return response()->json([
+            'status' => 200,
+            'data' => $user,
+        ]);
+    }
     public function authenticate(Request $request)
     {
         $validator = Validator::make($request->all(), [

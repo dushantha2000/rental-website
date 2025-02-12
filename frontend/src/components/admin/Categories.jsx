@@ -140,7 +140,7 @@ const Categories = () => {
     const result = await res.json();
     if (result.status === 200) {
       toast.success("Category deleted successfully");
-      fetchCategories(); // Refresh categories
+      fetchCategories(); 
     } else {
       console.log("Something went wrong");
     }
@@ -149,9 +149,9 @@ const Categories = () => {
   return (
     <div>
       {/* Main Categories Table */}
-      <div className="bg-gray-800 rounded-lg p-6">
-        <h2 className="text-xl font-semibold mb-4">Categories</h2>
-        <button onClick={() => setIsModalOpenTwo(true)} className="bg-gray-400 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-xl shadow mb-10">
+      <div className="p-6 mt-12 rounded-lg">
+        <h2 className="mb-4 text-xl font-semibold">Categories</h2>
+        <button onClick={() => setIsModalOpenTwo(true)} className="px-4 py-2 mb-10 font-medium text-white bg-gray-400 shadow hover:bg-blue-600 rounded-xl">
           Create
         </button>
         <div className="overflow-x-auto">
@@ -161,10 +161,10 @@ const Categories = () => {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-700">
-                  <th className="py-2 text-left w-12">Id</th>
+                  <th className="w-12 py-2 text-left">Id</th>
                   <th className="py-2 text-center">Name</th>
-                  <th className="py-2 text-left w-20">Status</th>
-                  <th className="py-2 text-left w-32">Action</th>
+                  <th className="w-20 py-2 text-left">Status</th>
+                  <th className="w-32 py-2 text-left">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -174,12 +174,12 @@ const Categories = () => {
                     <td className="py-2 text-center">{category.name}</td>
                     <td className="py-2">
                       {category.status === 1 ? (
-                        <span className="bg-green-500 text-white text-xs font-semibold px-5 py-1 rounded-full">Active</span>
+                        <span className="px-5 py-1 text-xs font-semibold text-white bg-green-500 rounded-full">Active</span>
                       ) : (
-                        <span className="bg-red-500 text-white text-xs font-semibold px-5 py-1 rounded-full">Blocked</span>
+                        <span className="px-5 py-1 text-xs font-semibold text-white bg-red-500 rounded-full">Blocked</span>
                       )}
                     </td>
-                    <td className="py-4 flex gap-2">
+                    <td className="flex gap-2 py-4">
                       <button onClick={() => updateCategory(category.id, { name: category.name, status: category.status })}>
                         <Link>
                           <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
@@ -204,25 +204,25 @@ const Categories = () => {
       {/* Create Main Category Modal */}
       {isModalOpenTwo && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg shadow-lg w-96 p-6">
+          <div className="p-6 bg-white rounded-lg shadow-lg w-96">
             <h2 className="mb-4 text-2xl font-bold text-center text-gray-800">Add New Main Categories</h2>
             <form onSubmit={handleSubmit(saveMainCategories)}>
               <div className="mb-4">
                 <label htmlFor="Categories" className="block mb-1 text-sm text-gray-600">Category name</label>
-                <input {...register("name", { required: "The name field is required" })} type="text" id="name" className="w-full px-3 text-black py-2 border rounded focus:outline-none focus:ring focus:ring-blue-300" />
-                {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+                <input {...register("name", { required: "The name field is required" })} type="text" id="name" className="w-full px-3 py-2 text-black border rounded focus:outline-none focus:ring focus:ring-blue-300" />
+                {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
               </div>
               <div className="mb-4">
                 <label htmlFor="status" className="block mb-1 text-sm text-gray-600">Status</label>
-                <select {...register("status", { required: "The status field is required" })} className="w-full px-3 text-black py-2 border rounded focus:outline-none focus:ring focus:ring-blue-300">
+                <select {...register("status", { required: "The status field is required" })} className="w-full px-3 py-2 text-black border rounded focus:outline-none focus:ring focus:ring-blue-300">
                   <option value="1">Active</option>
                   <option value="0">Blocked</option>
                 </select>
-                {errors.status && <p className="text-red-500 text-sm">{errors.status.message}</p>}
+                {errors.status && <p className="text-sm text-red-500">{errors.status.message}</p>}
               </div>
               <button type="submit" className="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">Add</button>
             </form>
-            <button onClick={() => setIsModalOpenTwo(false)} className="mt-4 w-full px-4 py-2 text-white bg-gray-500 rounded hover:bg-gray-600">Close</button>
+            <button onClick={() => setIsModalOpenTwo(false)} className="w-full px-4 py-2 mt-4 text-white bg-gray-500 rounded hover:bg-gray-600">Close</button>
           </div>
         </div>
       )}
@@ -230,25 +230,25 @@ const Categories = () => {
       {/* Create Sub Category Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg shadow-lg w-96 p-6">
+          <div className="p-6 bg-white rounded-lg shadow-lg w-96">
             <h2 className="mb-4 text-2xl font-bold text-center text-gray-800">Add New Sub Categories</h2>
             <form onSubmit={handleSubmit(saveSubCategories)}>
               <div className="mb-4">
                 <label htmlFor="name" className="block mb-1 text-sm text-gray-600">Sub category name</label>
-                <input {...register("name", { required: "The name field is required" })} type="text" id="name" className="w-full px-3 text-black py-2 border rounded focus:outline-none focus:ring focus:ring-blue-300" />
-                {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+                <input {...register("name", { required: "The name field is required" })} type="text" id="name" className="w-full px-3 py-2 text-black border rounded focus:outline-none focus:ring focus:ring-blue-300" />
+                {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
               </div>
               <div className="mb-4">
                 <label htmlFor="status" className="block mb-1 text-sm text-gray-600">Status</label>
-                <select {...register("status", { required: "The status field is required" })} className="w-full px-3 text-black py-2 border rounded focus:outline-none focus:ring focus:ring-blue-300">
+                <select {...register("status", { required: "The status field is required" })} className="w-full px-3 py-2 text-black border rounded focus:outline-none focus:ring focus:ring-blue-300">
                   <option value="1">Active</option>
                   <option value="0">Blocked</option>
                 </select>
-                {errors.status && <p className="text-red-500 text-sm">{errors.status.message}</p>}
+                {errors.status && <p className="text-sm text-red-500">{errors.status.message}</p>}
               </div>
               <button type="submit" className="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">Add</button>
             </form>
-            <button onClick={() => setIsModalOpen(false)} className="mt-4 w-full px-4 py-2 text-white bg-gray-500 rounded hover:bg-gray-600">Close</button>
+            <button onClick={() => setIsModalOpen(false)} className="w-full px-4 py-2 mt-4 text-white bg-gray-500 rounded hover:bg-gray-600">Close</button>
           </div>
         </div>
       )}

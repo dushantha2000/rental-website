@@ -17,7 +17,7 @@ const HomePage = () => {
         <PropertyFilter />
 
         {/*Chat Box */}
-
+        
         {/*Customer Feed back */}
         <FeedBack />
       </Layout>

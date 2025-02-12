@@ -19,6 +19,7 @@ import Dashboard from "./components/admin/Dashboard";
 import { AdminRequireAuth } from "./components/admin/AdminRequireAuth";
 import SellerDashboard from "./components/seller/SellerDashboard";
 import BuyerDashboard from "./components/buyer/BuyerDashboard";
+import Faq from "./components/common/Faq";
 
 function App() {
   return (
@@ -39,6 +40,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/details/:id" element={<DetailsPage />} /> {/* Updated route */}
+          
+
+          <Route path="/faq" element={<Faq />} />
 
           {/*Admin Process */}
           <Route

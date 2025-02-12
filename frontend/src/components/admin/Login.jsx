@@ -87,32 +87,32 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-      <div className="w-full max-w-md bg-gray-800 p-8 rounded-lg shadow-lg border border-gray-700">
-        <h2 className="text-2xl font-bold text-white text-center mb-6">Login</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gray-900">
+      <div className="w-full max-w-md p-8 bg-gray-800 border border-gray-700 rounded-lg shadow-lg">
+        <h2 className="mb-6 text-2xl font-bold text-center text-white">Login</h2>
         <form onSubmit={handleLogin}>
           {/* Email Input */}
           <div className="mb-4">
             <label
               htmlFor="email"
-              className="block text-gray-300 text-sm font-medium mb-1"
+              className="block mb-1 text-sm font-medium text-gray-300"
             >
               Email Address
             </label>
             <div className="flex items-center bg-gray-700 rounded-md">
-              <Mail className="h-5 w-5 text-gray-400 ml-2" />
+              <Mail className="w-5 h-5 ml-2 text-gray-400" />
               <input
                 type="email"
                 id="email"
                 placeholder="Enter your email"
-                className="w-full px-4 py-2 bg-gray-700 text-white placeholder-gray-400 focus:outline-none rounded-md"
+                className="w-full px-4 py-2 text-white placeholder-gray-400 bg-gray-700 rounded-md focus:outline-none"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+              <p className="mt-1 text-sm text-red-500">{errors.email}</p>
             )}
           </div>
 
@@ -120,31 +120,31 @@ const LoginPage = () => {
           <div className="mb-4">
             <label
               htmlFor="password"
-              className="block text-gray-300 text-sm font-medium mb-1"
+              className="block mb-1 text-sm font-medium text-gray-300"
             >
               Password
             </label>
             <div className="flex items-center bg-gray-700 rounded-md">
-              <Lock className="h-5 w-5 text-gray-400 ml-2" />
+              <Lock className="w-5 h-5 ml-2 text-gray-400" />
               <input
                 type="password"
                 id="password"
                 placeholder="Enter your password"
-                className="w-full px-4 py-2 bg-gray-700 text-white placeholder-gray-400 focus:outline-none rounded-md"
+                className="w-full px-4 py-2 text-white placeholder-gray-400 bg-gray-700 rounded-md focus:outline-none"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </div>
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+              <p className="mt-1 text-sm text-red-500">{errors.password}</p>
             )}
           </div>
 
           {/* Login Button */}
           <button
             type="submit"
-            className="w-full bg-purple-600 text-white font-medium px-4 py-2 rounded-md hover:bg-purple-700 transition duration-300"
+            className="w-full bg-gradient-to-br from-purple-600  text-white font-semibold px-6 py-3 rounded-lg hover:from-purple-700 transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
           >
             Login
           </button>
@@ -152,13 +152,13 @@ const LoginPage = () => {
 
         {/* Extra Links */}
         <div className="mt-6 text-center">
-          <p className="text-gray-400 text-sm">
+          <p className="text-sm text-gray-400">
             Don't have an account?{" "}
             <a href="/register" className="text-purple-400 hover:underline">
               Sign Up
             </a>
           </p>
-          <p className="text-gray-400 text-sm mt-2">
+          <p className="mt-2 text-sm text-gray-400">
             Forgot your password?{" "}
             <a href="#" className="text-purple-400 hover:underline">
               Reset It
