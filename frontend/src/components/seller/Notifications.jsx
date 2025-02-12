@@ -87,9 +87,9 @@ const Notifications = () => {
   }
 
   return (
-    <div className="p-6 bg-gray-800 rounded-lg">
+    <div className="p-6 mt-12 rounded-lg">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-white flex items-center">
+        <h2 className="flex items-center text-2xl font-bold text-white">
           <FaBell className="mr-2" /> Notifications
         </h2>
         <div className="flex items-center space-x-4">
@@ -99,12 +99,12 @@ const Notifications = () => {
               placeholder="Search notifications..."
               value={searchQuery}
               onChange={handleSearchChange}
-              className="px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-2 text-white bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-2 top-2 text-gray-400 hover:text-white"
+                className="absolute text-gray-400 right-2 top-2 hover:text-white"
               >
                 <FaTimes />
               </button>
@@ -112,7 +112,7 @@ const Notifications = () => {
           </div>
           <div className="relative">
             <button
-              className="px-4 py-2 bg-gray-700 text-white rounded-lg flex items-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex items-center px-4 py-2 text-white bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               onClick={() => handleFilterChange(filter === "all" ? "unread" : filter === "unread" ? "read" : "all")}
             >
               <FaFilter className="mr-2" /> {filter === "all" ? "All" : filter === "read" ? "Read" : "Unread"}
@@ -160,7 +160,7 @@ const Notifications = () => {
                     {!notification.read && (
                       <button
                         onClick={() => markAsRead(notification.id)}
-                        className="px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                        className="px-3 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
                       >
                         Mark as Read
                       </button>

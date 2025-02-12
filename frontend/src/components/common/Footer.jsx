@@ -8,21 +8,21 @@ import {
 
 function Footer() {
   return (
-    <footer className="bg-gray-900 border-t border-gray-800 w-full">
-      <div className="container mx-auto px-4 py-12 max-w-screen-xl">
+    <footer className="w-full bg-gray-900 border-t border-gray-800">
+      <div className="container max-w-screen-xl px-4 py-12 mx-auto">
         {/* Subscription Section */}
-        <div className="rounded-lg p-6 mb-8 max-w-4xl mx-auto">
+        <div className="max-w-4xl p-6 mx-auto mb-8 rounded-lg">
           <div className="text-center">
-            <h3 className="text-xl font-bold text-white mb-4">Stay Updated with DreamHome</h3>
-            <p className="text-gray-400 mb-6">Subscribe to our newsletter for the latest property listings and exclusive offers</p>
+            <h3 className="mb-4 text-xl font-bold text-white">Stay Updated with DreamHome</h3>
+            <p className="mb-6 text-gray-400">Subscribe to our newsletter for the latest property listings and exclusive offers</p>
             <div className="flex max-w-md mx-auto">
               <input 
                 type="email" 
                 placeholder="Enter your email" 
-                className="w-full px-4 py-2 rounded-l-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 text-white bg-gray-700 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
               <button 
-                className="bg-purple-600 text-white px-6 py-2 rounded-r-lg hover:bg-purple-700 transition duration-300"
+                className="w-full bg-gradient-to-br from-purple-600  text-white font-semibold  py-3  hover:from-purple-700 transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
               >
                 Subscribe
               </button>
@@ -31,9 +31,9 @@ function Footer() {
         </div>
 
         {/* Existing Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+        <div className="grid grid-cols-1 gap-8 text-center md:grid-cols-4">
             <div>
-              <h3 className="text-lg font-semibold mb-4 text-white">Property Types</h3>
+              <h3 className="mb-4 text-lg font-semibold text-white">Property Types</h3>
               <ul className="space-y-2">
                 <li><a href="#" className="text-gray-400 hover:text-purple-400">Apartments</a></li>
                 <li><a href="#" className="text-gray-400 hover:text-purple-400">Houses</a></li>
@@ -42,7 +42,7 @@ function Footer() {
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold mb-4 text-white">Popular Locations</h3>
+              <h3 className="mb-4 text-lg font-semibold text-white">Popular Locations</h3>
               <ul className="space-y-2">
                 <li><a href="#" className="text-gray-400 hover:text-purple-400">New York</a></li>
                 <li><a href="#" className="text-gray-400 hover:text-purple-400">Los Angeles</a></li>
@@ -51,7 +51,7 @@ function Footer() {
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold mb-4 text-white">Company</h3>
+              <h3 className="mb-4 text-lg font-semibold text-white">Company</h3>
               <ul className="space-y-2">
                 <li><a href="#" className="text-gray-400 hover:text-purple-400">About Us</a></li>
                 <li><a href="#" className="text-gray-400 hover:text-purple-400">Contact</a></li>
@@ -60,7 +60,7 @@ function Footer() {
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold mb-4 text-white">Legal</h3>
+              <h3 className="mb-4 text-lg font-semibold text-white">Legal</h3>
               <ul className="space-y-2">
                 <li><a href="#" className="text-gray-400 hover:text-purple-400">Privacy Policy</a></li>
                 <li><a href="#" className="text-gray-400 hover:text-purple-400">Terms of Service</a></li>
@@ -75,14 +75,14 @@ function Footer() {
 
         {/* Footer Grid */}
         <div className="max-w-screen-xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-screen-xl">
+          <div className="grid max-w-screen-xl grid-cols-1 gap-8 md:grid-cols-4">
             {/* Existing columns remain the same */}
             {/* ... */}
           </div>
 
           {/* Social Media and Copyright */}
-          <div className="mt-8 pt-8 border-t border-gray-800 text-center">
-            <div className="flex justify-center space-x-6 mb-4">
+          <div className="pt-8 mt-8 text-center border-t border-gray-800">
+            <div className="flex justify-center mb-4 space-x-6">
               <a href="#" className="text-gray-400 hover:text-purple-400">
                 <Facebook size={24} />
               </a>

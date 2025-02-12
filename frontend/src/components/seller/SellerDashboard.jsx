@@ -30,7 +30,7 @@ const Dashboard = () => {
   return (
     <Layout>
       <div className="p-4 text-white bg-gray-900 md:p-6">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 mt-12 md:grid-cols-4">
           <div className="md:col-span-1">
             <Slider activeSection={activeSection} setActiveSection={setActiveSection} />
           </div>

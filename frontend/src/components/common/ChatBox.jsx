@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Send, MessageCircle } from "lucide-react";
  // Import axios for API calls
+
+ 
 import { apiUrl } from '../common/Http'; // Import the API URL
 
 const ChatBox = ({ rentals }) => {
@@ -37,7 +39,7 @@ const ChatBox = ({ rentals }) => {
       const response = await axios.post(`${apiUrl}/gemini`, { message: inputMessage });
       const botResponse = {
         id: messages.length + 2,
-        text: response.data.reply, // Assuming the API returns a 'reply' field
+        text: response.data.reply, 
         sender: "bot",
       };
 

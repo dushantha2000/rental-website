@@ -81,9 +81,9 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-      <div className="w-full max-w-lg bg-gray-800 p-8 rounded-lg shadow-lg border border-gray-700">
-        <h2 className="text-2xl font-bold text-white text-center mb-6">Register</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gray-900">
+      <div className="w-full max-w-lg p-8 bg-gray-800 border border-gray-700 rounded-lg shadow-lg">
+        <h2 className="mb-6 text-2xl font-bold text-center text-white">Register</h2>
 
         {/* Account Type Selection */}
         <div className="flex justify-center mb-6">
@@ -108,7 +108,7 @@ const RegisterPage = () => {
         <form onSubmit={handleRegister}>
           {/* Username */}
           <div className="mb-4">
-            <label htmlFor="name" className="block text-gray-300 text-sm font-medium mb-1">
+            <label htmlFor="name" className="block mb-1 text-sm font-medium text-gray-300">
               Name
             </label>
             <input
@@ -122,12 +122,12 @@ const RegisterPage = () => {
               value={formData.username}
               onChange={handleInputChange}
             />
-            {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
+            {errors.username && <p className="text-sm text-red-500">{errors.username}</p>}
           </div>
 
           {/* Email */}
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-300 text-sm font-medium mb-1">
+            <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-300">
               Email Address
             </label>
             <input
@@ -141,12 +141,12 @@ const RegisterPage = () => {
               value={formData.email}
               onChange={handleInputChange}
             />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+            {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
           </div>
 
           {/* Password */}
           <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-300 text-sm font-medium mb-1">
+            <label htmlFor="password" className="block mb-1 text-sm font-medium text-gray-300">
               Password
             </label>
             <input
@@ -160,12 +160,12 @@ const RegisterPage = () => {
               value={formData.password}
               onChange={handleInputChange}
             />
-            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+            {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
           </div>
 
           {/* Phone Number */}
           <div className="mb-4">
-            <label htmlFor="phone" className="block text-gray-300 text-sm font-medium mb-1">
+            <label htmlFor="phone" className="block mb-1 text-sm font-medium text-gray-300">
               Phone Number
             </label>
             <input
@@ -179,12 +179,12 @@ const RegisterPage = () => {
               value={formData.phone}
               onChange={handleInputChange}
             />
-            {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
+            {errors.phone && <p className="text-sm text-red-500">{errors.phone}</p>}
           </div>
 
           {/* Address */}
           <div className="mb-4">
-            <label htmlFor="address" className="block text-gray-300 text-sm font-medium mb-1">
+            <label htmlFor="address" className="block mb-1 text-sm font-medium text-gray-300">
               Address
             </label>
             <input
@@ -198,13 +198,13 @@ const RegisterPage = () => {
               value={formData.address}
               onChange={handleInputChange}
             />
-            {errors.address && <p className="text-red-500 text-sm">{errors.address}</p>}
+            {errors.address && <p className="text-sm text-red-500">{errors.address}</p>}
           </div>
 
           {/* Register Button */}
           <button
             type="submit"
-            className="w-full bg-purple-600 text-white font-medium px-4 py-2 rounded-md hover:bg-purple-700 transition duration-300"
+            className="w-full bg-gradient-to-br from-purple-600  text-white font-semibold px-6 py-3 rounded-lg hover:from-purple-700 transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
           >
             Register
           </button>

@@ -341,7 +341,7 @@ const Edit = () => {
                 <button
                   type="button"
                   onClick={handleFeatureAdd}
-                  className="px-6 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+                  className="px-10 py-w-full bg-gradient-to-br from-purple-600  text-white font-semibold  py-3  hover:from-purple-700 transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
                 >
                   Add
                 </button>
@@ -398,7 +398,7 @@ const Edit = () => {
             <button
               type="submit"
               disabled={loader}
-              className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all transform hover:scale-[1.02] disabled:opacity-75 disabled:cursor-not-allowed"
+              className="w-full bg-gradient-to-br from-purple-600  text-white font-semibold  py-3  hover:from-purple-700 transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
             >
               {loader ? (
                 <div className="flex items-center justify-center">
