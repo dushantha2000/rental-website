@@ -36,6 +36,7 @@ function App() {
           <Route path="/recommendation" element={<Recommendation />} />
           <Route path="/listings" element={<Listings />} />
           <Route path="/about" element={<AboutPage />} />
+         
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -58,7 +59,7 @@ function App() {
             path="/seller/dashboard"
             element={
               <AdminRequireAuth>
-                <SellerDashboard />
+                <SellerDashboard/>
               </AdminRequireAuth>
             }
           />
