@@ -1,9 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Send, MessageCircle } from "lucide-react";
- // Import axios for API calls
-
- 
-import { apiUrl } from '../common/Http'; // Import the API URL
+import { apiUrl } from '../common/Http'; // Ensure this points to your backend URL
 
 const ChatBox = ({ rentals }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,6 +25,7 @@ const ChatBox = ({ rentals }) => {
   const handleSendMessage = async () => {
     if (inputMessage.trim() === "") return;
 
+    // Add the user's message to the chat
     const newUserMessage = {
       id: messages.length + 1,
       text: inputMessage,
@@ -36,15 +34,32 @@ const ChatBox = ({ rentals }) => {
     setMessages((prev) => [...prev, newUserMessage]);
 
     try {
-      const response = await axios.post(`${apiUrl}/gemini`, { message: inputMessage });
+      // Send the message to the backend using fetch
+      const response = await fetch(`${apiUrl}/chat`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: inputMessage }), 
+      });
+
+      // Check if the response is OK
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      // Parse the JSON response
+      const data = await response.json();
+
+      // Add the bot's response to the chat
       const botResponse = {
         id: messages.length + 2,
-        text: response.data.reply, 
+        text: data.response, 
         sender: "bot",
       };
-
       setMessages((prev) => [...prev, botResponse]);
     } catch (error) {
+      // Handle errors (e.g., network issues or backend errors)
       const errorMessage = {
         id: messages.length + 2,
         text: "Sorry, I couldn't get a response from the server.",
@@ -53,6 +68,7 @@ const ChatBox = ({ rentals }) => {
       setMessages((prev) => [...prev, errorMessage]);
     }
 
+    // Clear the input field
     setInputMessage("");
   };
 

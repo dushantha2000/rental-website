@@ -9,6 +9,9 @@ use App\Http\Controllers\common\PropertyController;
 use App\Http\Controllers\common\TempImageController;
 use App\Http\Controllers\BookingController;
 use Illuminate\Routing\Route as RoutingRoute;
+use App\Http\Controllers\ChatController;
+
+
 
 Route::post('/admin/login', [AuthController::class, 'authenticate']);
 Route::post('/register', [AuthController::class, 'register']);
@@ -57,3 +60,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
  
   
 });
+
+Route::post('chat', [ChatController::class, 'handle']);
