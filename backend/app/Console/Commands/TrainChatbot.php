@@ -24,18 +24,18 @@ class TrainChatbot extends Command
 
         if ($intents->isEmpty()) {
             $this->warn('No intents found in the database. Please add intents before training.');
-            return 1; // Indicate failure
+            return 1; 
         }
 
         $samples = [];
         $labels = [];
 
         foreach ($intents as $intent) {
-            // Ensure patterns are treated as an array
+            
             $patterns = is_array($intent->patterns) ? $intent->patterns : json_decode($intent->patterns, true);
 
             if (!is_array($patterns)) {
-                continue; // Skip if invalid data
+                continue; 
             }
 
             foreach ($patterns as $pattern) {
@@ -46,7 +46,7 @@ class TrainChatbot extends Command
 
         if (empty($samples)) {
             $this->warn('No training data found. Add intents and patterns to the database.');
-            return 1; // Indicate failure
+            return 1; 
         }
 
         $dataset = new Labeled($samples, $labels);

@@ -22,6 +22,7 @@ Route::get('/properties/{id}', [PropertyController::class, 'show']);
 Route::put('/properties/{id}', [PropertyController::class, 'update']);
 Route::delete('/properties/{id}', [PropertyController::class, 'destroy']);
 Route::post('/properties', [PropertyController::class, 'store']);
+Route::get('/propertySeller/{id}',[PropertyController::class,'sellerProperty']);
 
 // Search
 Route::POST('/properties/search', [PropertyController::class, 'search']);
