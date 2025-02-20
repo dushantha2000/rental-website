@@ -95,6 +95,33 @@ class PropertyController extends Controller
         return response()->json($property);
     }
 
+    
+    //unique seller's added property view
+    public function sellerProperty($id)
+{
+    $property = Property::where('user_id', $id)->get();
+
+    if ($property->isEmpty()) {
+        return response()->json(['message' => 'No properties created'], 404);
+    }
+
+    $formattedProperty = $property->map(function ($property) {
+        return [
+            'id' => $property->id,
+            'name' => $property->name,
+            'location' => $property->location,
+            'squareFeet' => $property->squareFeet,
+            'monthlyFee' => $property->monthlyFee,
+            'description' => $property->description,
+            'features' => $property->features,
+            'images' => collect(json_decode($property->images, true))->map(fn($img) => asset($img)),
+        ];
+    });
+
+    return response()->json($formattedProperty, 200);
+}
+
+
 
     public function update(Request $request, $id)
     {

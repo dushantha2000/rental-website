@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ChevronRight, ChevronDown, Building2, Home } from 'lucide-react';
 import { apiUrl, countToken } from "../common/Http";
 
+
 const TreeNode = ({ label, children, icon: Icon }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const hasChildren = children && children.length > 0;
@@ -109,7 +110,7 @@ const PropertyTreeMenu = () => {
   ];
 
   return (
-    <div className="p-6 bg-gray-900 border border-gray-800 shadow-xl w-72 rounded-xl">
+    <div className="p-6  mt-10 bg-gray-900 border border-gray-800 shadow-xl w-72 rounded-xl">
       <h2 className="flex items-center mb-6 text-xl font-semibold text-white">
         <Building2 className="w-5 h-5 mr-2 text-blue-400" />
         Property Types
