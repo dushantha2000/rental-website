@@ -53,7 +53,78 @@ class ChatBoxSeeder extends Seeder
                     'We have listings in Colombo, Kandy, Galle, and other popular destinations.'
                 ]
             ],
-            // Add other intents here...
+            [
+                'tag' => 'availability',
+                'patterns' => ['is it available', 'can I rent now', 'availability', 'available properties', 'what\'s available'],
+                'responses' => [
+                    'Yes, we have several properties available for rent. Can you share what type of property you’re looking for?',
+                    'Availability depends on the location and type of property. Would you like me to show you the current listings?',
+                    'We have properties available for immediate move-in. What’s your preferred location and budget?'
+                ]
+            ],
+            [
+                'tag' => 'amenities',
+                'patterns' => ['amenities', 'facilities', 'what does it include', 'what are the features'],
+                'responses' => [
+                    'Our properties include amenities like Wi-Fi, parking, security, and fully furnished options. Do you need any specific features?',
+                    'Amenities vary by property. Common features include air conditioning, swimming pools, gyms, and parking spaces.',
+                    'We offer properties with different amenities. Are you looking for furnished, pet-friendly, or properties with parking?'
+                ]
+            ],
+            [
+                'tag' => 'lease_terms',
+                'patterns' => ['lease terms', 'contract', 'rental agreement', 'how long is the lease', 'minimum stay'],
+                'responses' => [
+                    'Lease terms vary. We offer monthly, 6-month, and yearly agreements. What term works best for you?',
+                    'Our standard lease term is one year, but some properties offer short-term rentals as well.',
+                    'Most rentals require a minimum 6-month lease. Do you need a short-term or long-term rental?'
+                ]
+            ],
+            [
+                'tag' => 'booking',
+                'patterns' => ['how do I book', 'book a property', 'reserve a rental', 'rental booking'],
+                'responses' => [
+                    'Booking is easy! Just share the property you’re interested in, and we’ll guide you through the process.',
+                    'To book a property, we’ll need your details and a security deposit. Would you like to start the booking?',
+                    'You can book a rental by visiting the property page and clicking "Book Now." Need help with anything else?'
+                ]
+            ],
+            [
+                'tag' => 'contact',
+                'patterns' => ['how can I contact you', 'support', 'customer service', 'phone number', 'email'],
+                'responses' => [
+                    'You can reach us at +94 71 234 5678 or email us at support@rentalservice.lk.',
+                    'Our customer support team is available from 9 AM to 6 PM. Would you like me to arrange a call?',
+                    'You can contact us via phone, email, or live chat. How would you like to connect?'
+                ]
+            ],
+            [
+                'tag' => 'property_type',
+                'patterns' => ['types of properties', 'what properties do you have', 'apartment', 'house', 'villa'],
+                'responses' => [
+                    'We offer apartments, houses, villas, and commercial spaces. What type of property are you interested in?',
+                    'Our listings include studio apartments, family houses, luxury villas, and more.',
+                    'We have properties of all types. Are you looking for a single room, an apartment, or a house?'
+                ]
+            ],
+            [
+                'tag' => 'thank_you',
+                'patterns' => ['thank you', 'thanks', 'appreciate it', 'thank you so much'],
+                'responses' => [
+                    'You’re welcome! Let me know if you need more help.',
+                    'Happy to assist! Have a great day.',
+                    'Glad I could help. Feel free to ask anything else.'
+                ]
+            ],
+            [
+                'tag' => 'goodbye',
+                'patterns' => ['bye', 'goodbye', 'see you', 'talk later'],
+                'responses' => [
+                    'Goodbye! Have a great day.',
+                    'Take care! Let me know if you need help again.',
+                    'Bye! Feel free to return anytime.'
+                ]
+            ]
         ];
 
         // Insert intents into the database
