@@ -51,15 +51,13 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('subCategories', [subCategoryController::class, 'store']);
   Route::post('categories', [CategoryController::class, 'store']);
 
-  
+
   Route::get('subCategories', [subCategoryController::class, 'index']);
   Route::get('subCategories/{id}', [subCategoryController::class, 'show']);
   Route::put('subCategories/{id}', [subCategoryController::class, 'update']);
   Route::delete('subCategories/{id}', [subCategoryController::class, 'destroy']);
   Route::post('subCategories', [subCategoryController::class, 'store']);
 
- 
-  
 });
 
 Route::post('chat', [ChatController::class, 'handle']);
